@@ -1,0 +1,6 @@
+/public/
+/node_modules/
+.env
+.hwaro_cache.json
+.DS_Store
+*.log
