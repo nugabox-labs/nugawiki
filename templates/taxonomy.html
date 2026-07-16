@@ -1,17 +1,21 @@
 {% include "header.html" %}
-{% include "partials/nav.html" %}
-{% include "partials/search.html" %}
-<div class="docs-container">
-{% include "partials/sidebar.html" %}
-  <main id="main" class="docs-main">
-    <h1>{% if taxonomy_name == "tags" %}태그{% else %}카테고리{% endif %}</h1>
-    <p class="taxonomy-desc">{% if taxonomy_name == "tags" %}문서에 사용된 태그 목록입니다.{% else %}문서를 분류하는 카테고리 목록입니다.{% endif %}</p>
-
-    {% set tax = get_taxonomy(kind=taxonomy_name) %}
-    <div class="tag-cloud">
-    {% for term in tax.items %}
-      <a class="badge{% if taxonomy_name == 'categories' %} badge-category{% endif %}" href="{{ get_taxonomy_url(kind=taxonomy_name, term=term.name) }}">{{ term.name }} <span class="badge-count">{{ term.count }}</span></a>
-    {% endfor %}
-    </div>
-    {% include "partials/ad-slot.html" %}
+      <main id="main" class="docs-main">
+        <article class="doc-article">
+          <p class="topic-path">./{{ taxonomy_name }}</p>
+          <h1>{% if taxonomy_name == "tags" %}태그{% else %}카테고리{% endif %}</h1>
+          <p class="doc-dek">{% if taxonomy_name == "tags" %}문서에 사용된 태그 목록입니다.{% else %}문서를 분류하는 카테고리 목록입니다.{% endif %}</p>
+          {% set tax = get_taxonomy(kind=taxonomy_name) %}
+          <ul class="term-list">
+            {% for term in tax.items | sort_by("name") %}
+              {% set n = term.pages | length %}
+              <li class="term-row">
+                <a class="term-link" href="{{ get_taxonomy_url(kind=taxonomy_name, term=term.name) }}">{% if taxonomy_name == "tags" %}#{% else %}/{% endif %}{{ term.name }}</a>
+                <span class="term-rule" aria-hidden="true"></span>
+                <span class="term-count">{{ n }}개 문서</span>
+              </li>
+            {% endfor %}
+          </ul>
+          {% include "partials/ad-slot.html" %}
+        </article>
+      </main>
 {% include "footer.html" %}

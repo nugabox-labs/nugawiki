@@ -1,27 +1,28 @@
 {% include "header.html" %}
-{% include "partials/nav.html" %}
-{% include "partials/search.html" %}
-<div class="docs-container">
-{% include "partials/sidebar.html" %}
-  <main id="main" class="docs-main">
-    <h1>{{ taxonomy_term | e }}</h1>
-    <p class="taxonomy-desc">{% if taxonomy_name == "tags" %}'{{ taxonomy_term | e }}' 태그가 붙은 문서{% else %}'{{ taxonomy_term | e }}' 카테고리의 문서{% endif %}:</p>
-
-    {% set tax = get_taxonomy(kind=taxonomy_name) %}
-    <ul class="wiki-list">
-    {% for term in tax.items if term.name == taxonomy_term %}
-      {% for p in term.pages %}
-      <li class="wiki-list-item">
-        <a href="{{ base_url }}{{ p.url }}">
-          <strong>{{ p.title | e }}</strong>
-          {% if p.description %}<span class="wiki-desc">{{ p.description | e }}</span>{% endif %}
-        </a>
-        <div class="wiki-meta">
-          {% if p.date %}<time>{{ p.date }}</time>{% endif %}
-        </div>
-      </li>
-      {% endfor %}
-    {% endfor %}
-    </ul>
-    {% include "partials/ad-slot.html" %}
+      <main id="main" class="docs-main">
+        <article class="doc-article">
+          <p class="topic-path">./{{ taxonomy_name }}/{{ taxonomy_term }}</p>
+          <h1>{% if taxonomy_name == "tags" %}#{% else %}/{% endif %}{{ taxonomy_term }}</h1>
+          <p class="doc-dek">&ldquo;{{ taxonomy_term }}&rdquo; {% if taxonomy_name == "tags" %}태그가 붙은{% else %}카테고리의{% endif %} 문서입니다.</p>
+          <ol class="doc-index">
+            {% set tax = get_taxonomy(kind=taxonomy_name) %}
+            {% for term in tax.items %}
+              {% if term.name == taxonomy_term %}
+                {% for p in term.pages | sort_by("date") | reverse %}
+                <li>
+                  <a href="{{ base_url }}{{ p.url }}">
+                    <span class="doc-index-body">
+                      <span class="doc-index-title">{{ p.title }}</span>
+                      {% if p.description %}<span class="doc-index-desc">{{ p.description | truncate_words(20) }}</span>{% endif %}
+                    </span>
+                    <span class="doc-index-watts">{% if p.date %}{{ p.date | date('%Y-%m-%d') }}{% endif %}</span>
+                  </a>
+                </li>
+                {% endfor %}
+              {% endif %}
+            {% endfor %}
+          </ol>
+          <p class="term-back"><a href="{{ base_url }}/{{ taxonomy_name }}/"><span aria-hidden="true">&larr;</span> 전체 {% if taxonomy_name == "tags" %}태그{% else %}카테고리{% endif %}</a></p>
+        </article>
+      </main>
 {% include "footer.html" %}

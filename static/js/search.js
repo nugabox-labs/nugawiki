@@ -1,149 +1,120 @@
 (function () {
-  var searchData = null;
-  var activeIndex = -1;
-  var overlay = document.getElementById('searchOverlay');
-  var input = document.getElementById('searchInput');
-  var resultsEl = document.getElementById('searchResults');
+  "use strict";
+  var baseUrl = document.documentElement.getAttribute("data-base-url") || "";
+  var modal = document.getElementById("search-modal");
+  var triggers = [
+    document.getElementById("search-trigger"),
+    document.getElementById("search-trigger-top")
+  ].filter(Boolean);
+  var input = document.getElementById("search-input");
+  var list = document.getElementById("search-results");
+  var empty = document.getElementById("search-empty");
+  if (!modal || !triggers.length || !input || !list) return;
 
-  function loadSearchData(cb) {
-    if (searchData) return cb(searchData);
-    var link = document.querySelector('link[rel="stylesheet"][href*="/css/"]');
-    var path = link ? new URL(link.href, document.baseURI).pathname : '/css/';
-    var searchUrl = path.substring(0, path.indexOf('/css/')) + '/search.json';
-    fetch(searchUrl)
-      .then(function (r) { return r.json(); })
-      .then(function (data) { searchData = data; cb(data); })
-      .catch(function () { searchData = []; cb([]); });
+  var fuse = null;
+  var items = [];
+  var selected = -1;
+  var lastTrigger = triggers[0];
+
+  function escapeHtml(str) {
+    var div = document.createElement("div");
+    div.textContent = str == null ? "" : String(str);
+    return div.innerHTML;
   }
 
-  window.openSearch = function () {
-    overlay.classList.add('active');
-    input.value = '';
-    resultsEl.innerHTML = '';
-    activeIndex = -1;
+  function loadIndex() {
+    if (fuse) return;
+    fetch(baseUrl + "/search.json")
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        fuse = new Fuse(data, { keys: ["title", "content"], threshold: 0.32, includeMatches: true });
+      })
+      .catch(function () { /* index unavailable — palette stays empty */ });
+  }
+
+  function render(results) {
+    list.innerHTML = "";
+    items = results;
+    selected = results.length ? 0 : -1;
+    empty.hidden = results.length !== 0 || input.value.trim() === "";
+    results.forEach(function (r, i) {
+      var page = r.item;
+      var li = document.createElement("li");
+      li.className = "palette-result";
+      li.setAttribute("role", "option");
+      li.id = "search-result-" + i;
+      li.setAttribute("aria-selected", i === selected ? "true" : "false");
+      var segment = page.url.replace(/^\/|\/$/g, "").split("/")[0] || "root";
+      var a = document.createElement("a");
+      a.href = baseUrl + page.url;
+      a.innerHTML =
+        '<span class="palette-result-family">' + escapeHtml(segment) + '</span>' +
+        '<span class="palette-result-title">' + escapeHtml(page.title) + "</span>";
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+    input.setAttribute("aria-expanded", results.length ? "true" : "false");
+  }
+
+  function updateSelection() {
+    var nodes = list.querySelectorAll(".palette-result");
+    nodes.forEach(function (node, i) {
+      node.setAttribute("aria-selected", i === selected ? "true" : "false");
+      if (i === selected) node.scrollIntoView({ block: "nearest" });
+    });
+    input.setAttribute("aria-activedescendant", selected >= 0 ? "search-result-" + selected : "");
+  }
+
+  function open(trigger) {
+    lastTrigger = trigger || lastTrigger;
+    loadIndex();
+    modal.hidden = false;
+    input.value = "";
+    render([]);
     input.focus();
-    loadSearchData(function () {});
-  };
+    document.body.style.overflow = "hidden";
+  }
 
-  window.closeSearch = function () {
-    overlay.classList.remove('active');
-    activeIndex = -1;
-  };
+  function close() {
+    modal.hidden = true;
+    document.body.style.overflow = "";
+    if (lastTrigger) lastTrigger.focus();
+  }
 
-  document.addEventListener('keydown', function (e) {
-    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-      e.preventDefault();
-      if (overlay.classList.contains('active')) {
-        closeSearch();
-      } else {
-        openSearch();
-      }
-    }
-    if (e.key === 'Escape' && overlay.classList.contains('active')) {
-      closeSearch();
+  triggers.forEach(function (trigger) {
+    trigger.addEventListener("click", function () { open(trigger); });
+  });
+
+  modal.addEventListener("click", function (event) {
+    if (event.target.hasAttribute("data-search-close")) close();
+  });
+
+  input.addEventListener("input", function () {
+    if (!fuse || input.value.trim() === "") { render([]); return; }
+    render(fuse.search(input.value).slice(0, 8));
+  });
+
+  input.addEventListener("keydown", function (event) {
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      if (items.length) { selected = (selected + 1) % items.length; updateSelection(); }
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      if (items.length) { selected = (selected - 1 + items.length) % items.length; updateSelection(); }
+    } else if (event.key === "Enter") {
+      if (selected >= 0 && items[selected]) window.location.href = baseUrl + items[selected].item.url;
+    } else if (event.key === "Escape") {
+      close();
     }
   });
 
-  function escapeHtml(s) {
-    var d = document.createElement('div');
-    d.textContent = s;
-    return d.innerHTML;
-  }
-
-  function highlightMatch(text, query) {
-    if (!query) return escapeHtml(text);
-    var escaped = query.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\\\$&');
-    var re = new RegExp('(' + escaped + ')', 'gi');
-    return escapeHtml(text).replace(re, '<mark>$1</mark>');
-  }
-
-  function getSnippet(content, query) {
-    var lower = content.toLowerCase();
-    var idx = lower.indexOf(query.toLowerCase());
-    var start = Math.max(0, idx - 60);
-    var end = Math.min(content.length, idx + query.length + 100);
-    var snippet = content.substring(start, end).replace(/\\s+/g, ' ').trim();
-    if (start > 0) snippet = '...' + snippet;
-    if (end < content.length) snippet = snippet + '...';
-    return snippet;
-  }
-
-  function search(query) {
-    if (!searchData || !query.trim()) {
-      resultsEl.innerHTML = '';
-      activeIndex = -1;
-      return;
+  document.addEventListener("keydown", function (event) {
+    var meta = event.metaKey || event.ctrlKey;
+    if (meta && event.key.toLowerCase() === "k") {
+      event.preventDefault();
+      modal.hidden ? open() : close();
+    } else if (event.key === "Escape" && !modal.hidden) {
+      close();
     }
-    var q = query.trim().toLowerCase();
-    var pageLang = document.documentElement.lang || '';
-    var results = [];
-    for (var i = 0; i < searchData.length; i++) {
-      var item = searchData[i];
-      if (pageLang && item.lang && item.lang !== pageLang) continue;
-      var titleIdx = item.title.toLowerCase().indexOf(q);
-      var contentIdx = item.content.toLowerCase().indexOf(q);
-      if (titleIdx !== -1 || contentIdx !== -1) {
-        var score = titleIdx !== -1 ? 100 - titleIdx : contentIdx;
-        results.push({ item: item, score: score });
-      }
-    }
-    results.sort(function (a, b) { return b.score - a.score; });
-    results = results.slice(0, 10);
-
-    if (results.length === 0) {
-      resultsEl.innerHTML = '<div class="search-no-results">No results for "' + escapeHtml(query) + '"</div>';
-      activeIndex = -1;
-      return;
-    }
-
-    var html = '';
-    for (var j = 0; j < results.length; j++) {
-      var r = results[j].item;
-      var snippet = getSnippet(r.content, query.trim());
-      html += '<a class="search-result-item" href="' + encodeURI(r.url) + '" data-index="' + j + '">'
-        + '<div class="search-result-title">' + highlightMatch(r.title, query.trim()) + '</div>'
-        + '<div class="search-result-snippet">' + highlightMatch(snippet, query.trim()) + '</div>'
-        + '</a>';
-    }
-    html += '<div class="search-hint"><span><kbd>&uarr;</kbd><kbd>&darr;</kbd> navigate</span><span><kbd>Enter</kbd> open</span><span><kbd>ESC</kbd> close</span></div>';
-    resultsEl.innerHTML = html;
-    activeIndex = -1;
-  }
-
-  function updateActive() {
-    var items = resultsEl.querySelectorAll('.search-result-item');
-    for (var i = 0; i < items.length; i++) {
-      items[i].classList.toggle('active', i === activeIndex);
-    }
-    if (activeIndex >= 0 && items[activeIndex]) {
-      items[activeIndex].scrollIntoView({ block: 'nearest' });
-    }
-  }
-
-  if (input) {
-    input.addEventListener('input', function () {
-      loadSearchData(function () { search(input.value); });
-    });
-
-    input.addEventListener('keydown', function (e) {
-      var items = resultsEl.querySelectorAll('.search-result-item');
-      var count = items.length;
-      if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        activeIndex = (activeIndex + 1) % count;
-        updateActive();
-      } else if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        activeIndex = (activeIndex - 1 + count) % count;
-        updateActive();
-      } else if (e.key === 'Enter') {
-        e.preventDefault();
-        if (activeIndex >= 0 && items[activeIndex]) {
-          window.location.href = items[activeIndex].href;
-        } else if (items.length > 0) {
-          window.location.href = items[0].href;
-        }
-      }
-    });
-  }
+  });
 })();

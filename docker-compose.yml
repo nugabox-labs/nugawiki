@@ -12,4 +12,4 @@ services:
     container_name: nugawiki
     restart: unless-stopped
     ports:
-      - "${PROD_PORT:-1729}:80"
+      - "${PROD_PORT:-1731}:80"

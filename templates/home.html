@@ -1,0 +1,30 @@
+{% include "header.html" %}
+      <main id="main" class="docs-main docs-main--home">
+        <h1 class="hero-title">{{ page.title }}</h1>
+        {% if page.description %}<p class="hero-lede">{{ page.description }}</p>{% endif %}
+
+        <div class="prose prose--home">
+          {{ content | safe }}
+        </div>
+
+        {% if site.sections | length > 0 %}
+        <section class="inventory-grid" aria-label="카테고리">
+          <p class="section-kicker">./categories &mdash; {{ site.sections | length }} entries</p>
+          <div class="inv-cards">
+            {% for sec in site.sections | sort_by("title") %}
+            {% if sec.name != "" %}
+            <a class="inv-card" href="{{ base_url }}{{ sec.url }}">
+              <span class="inv-card-top">
+                <span class="inv-card-host">{{ sec.title }}</span>
+                <span class="inv-card-kind">CATEGORY</span>
+              </span>
+              {% if sec.description %}<span class="inv-card-desc">{{ sec.description | truncate_words(16) }}</span>{% endif %}
+              <span class="inv-card-watts">{{ sec.pages_count }}개 문서</span>
+            </a>
+            {% endif %}
+            {% endfor %}
+          </div>
+        </section>
+        {% endif %}
+      </main>
+{% include "footer.html" %}

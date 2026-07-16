@@ -2,6 +2,19 @@
 
 모든 주목할 만한 변경사항을 이 파일에 기록한다. [Semantic Versioning](https://semver.org/lang/ko/)을 따른다.
 
+## v0.9.0 - 2026-07-17
+
+### Changed
+- alder 스타일을 손으로 재도색하는 대신, Hwaro 공식 원격 스캐폴드 기능(`hwaro init --scaffold github:hahwul/hwaro-examples/examples/alder`)으로 실제 alder CSS/JS/페이지 셸을 임포트했다.
+- alder 원본은 홈랩 랙(노드/스위치/CPU·RAM 스펙) 전용 데모라, `home.html`/`page.html`/`section.html`/`taxonomy*.html`/`404.html`의 콘텐츠 로직을 Notion 기반 카테고리/태그 데이터 모델에 맞게 새로 작성했다(디자인 토큰·컴포넌트 CSS·검색 팔레트·JS는 원본 그대로).
+- 사용하지 않는 `spec-strip`(CPU/RAM) CSS를 제거하고, notion-sync 콜아웃 매핑에 맞는 `.admonition` 스타일과 AdSense `.ad-slot` 스타일을 추가했다.
+- 기존 docs 스캐폴드 잔재(`templates/partials/nav|search|sidebar.html`, `templates/shortcodes/alert.html`)를 제거했다.
+- `page.taxonomies.categories`로 카테고리 배지 접근자를 수정했다(`page.categories`는 렌더링되지 않는 버그였음).
+- 로컬 접속 포트를 사용자 요청에 맞춰 개발=1729, 운영=1731로 재배치했다.
+
+### Verified
+- 실제 `.env` 자격증명으로 `--dev up`/`up` 모두 재빌드해 홈(카테고리 카드), 상세(콜아웃/표/코드/카테고리·태그 배지/원문 링크), 섹션·태그·카테고리 목록, Ctrl+K 검색 팔레트(fuse.js 실 인덱스)까지 전부 직접 확인.
+
 ## v0.8.0 - 2026-07-17
 
 ### Added

@@ -1,22 +1,54 @@
 {% include "header.html" %}
-{% include "partials/nav.html" %}
-{% include "partials/search.html" %}
-<div class="docs-container">
-{% include "partials/sidebar.html" %}
-  <main id="main" class="docs-main">
-    {% if page.title is present %}<h1>{{ page.title | e }}</h1>{% endif %}
-    {% if page.date or page.categories | length > 0 or page.tags | length > 0 %}
-    <div class="wiki-meta wiki-meta-page">
-      {% if page.date %}<time>{{ page.date }}</time>{% endif %}
-      {% if page.updated and page.updated != page.date %}<span class="wiki-updated">업데이트 {{ page.updated }}</span>{% endif %}
-      {% for c in page.categories %}<a class="badge badge-category" href="{{ base_url }}/categories/{{ c | slugify }}/">{{ c }}</a>{% endfor %}
-      {% for t in page.tags %}<a class="badge" href="{{ base_url }}/tags/{{ t | slugify }}/">{{ t }}</a>{% endfor %}
-    </div>
-    {% endif %}
-    {% if toc %}<nav class="docs-toc" aria-label="On this page"><p class="docs-toc-title">On this page</p>{{ toc }}</nav>{% endif %}
-    {{ content }}
-    {% if page.extra.external_url %}
-    <p class="wiki-external-link">원문: <a href="{{ page.extra.external_url }}" target="_blank" rel="noopener">{{ page.extra.external_url }}</a></p>
-    {% endif %}
-    {% include "partials/ad-slot.html" %}
+      <main id="main" class="docs-main">
+        <div class="doc-columns">
+          <article class="doc-article">
+            {% if page.section %}<p class="topic-path">./{{ page.section }}</p>{% endif %}
+            <h1>{{ page.title }}</h1>
+            {% if page.description %}<p class="doc-dek">{{ page.description }}</p>{% endif %}
+
+            {% if page.date or page.tags | length > 0 or page.taxonomies.categories | length > 0 %}
+            <div class="doc-meta">
+              {% if page.date %}<time datetime="{{ page.date | date('%Y-%m-%d') }}">{{ page.date | date('%Y-%m-%d') }}</time>{% endif %}
+              {% if page.updated and page.updated != page.date %}<span>업데이트 {{ page.updated | date('%Y-%m-%d') }}</span>{% endif %}
+              {% if page.reading_time %}<span>{{ page.reading_time }}분 소요</span>{% endif %}
+              {% if page.taxonomies.categories | length > 0 or page.tags | length > 0 %}
+              <span class="doc-tags">
+                {% for c in page.taxonomies.categories %}<a class="tag-chip" href="{{ get_taxonomy_url(kind='categories', term=c) }}">/{{ c }}</a>{% endfor %}
+                {% for t in page.tags %}<a class="tag-chip" href="{{ get_taxonomy_url(kind='tags', term=t) }}">#{{ t }}</a>{% endfor %}
+              </span>
+              {% endif %}
+            </div>
+            {% endif %}
+
+            <div class="prose">
+              {{ content | safe }}
+            </div>
+
+            {% if page.extra.external_url %}
+            <p class="doc-external-link">원문: <a href="{{ page.extra.external_url }}" target="_blank" rel="noopener">{{ page.extra.external_url }}</a></p>
+            {% endif %}
+
+            {% include "partials/ad-slot.html" %}
+
+            {% if page.section %}
+            {% set siblings = get_section(path=page.section).pages | sort_by("date") %}
+            <nav class="doc-pager" aria-label="문서 이동">
+              {% for p in siblings %}
+                {% if p.url == page.url %}
+                  {% if not loop.first %}{% set prev = siblings[loop.index0 - 1] %}<a class="doc-pager-link doc-pager-prev" href="{{ base_url }}{{ prev.url }}"><span>&larr; 이전</span>{{ prev.title }}</a>{% endif %}
+                  {% if not loop.last %}{% set next = siblings[loop.index0 + 1] %}<a class="doc-pager-link doc-pager-next" href="{{ base_url }}{{ next.url }}"><span>다음 &rarr;</span>{{ next.title }}</a>{% endif %}
+                {% endif %}
+              {% endfor %}
+            </nav>
+            {% endif %}
+          </article>
+
+          {% if toc %}
+          <aside class="doc-toc" aria-label="목차">
+            <p class="doc-toc-title">./on-this-page</p>
+            {{ toc | safe }}
+          </aside>
+          {% endif %}
+        </div>
+      </main>
 {% include "footer.html" %}

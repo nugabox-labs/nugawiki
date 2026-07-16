@@ -7,13 +7,21 @@ default_language = "ko"
 processors = ["markdown"]
 
 [content.files]
-allow_extensions = ["jpg", "jpeg", "png", "gif", "svg", "webp"]
+allow_extensions = ["svg", "jpg", "jpeg", "png", "gif", "webp"]
 
 [highlight]
 enabled = true
-mode = "client"
 theme = "atom-one-dark"
 use_cdn = true
+
+[search]
+enabled = true
+format = "fuse_json"
+fields = ["title", "content"]
+filename = "search.json"
+
+[pagination]
+enabled = false
 
 [[taxonomies]]
 name = "categories"
@@ -26,33 +34,18 @@ feed = true
 [sitemap]
 enabled = true
 
+[robots]
+enabled = true
+
 [feeds]
 enabled = true
 type = "rss"
 limit = 10
 
-[search]
-enabled = true
-format = "fuse_json"
-
-# =============================================================================
-# OpenGraph & Twitter Cards (recommended for social sharing)
-# =============================================================================
-
 [og]
 type = "article"
 twitter_card = "summary_large_image"
 
-# =============================================================================
-# Markdown (commonly customized)
-# =============================================================================
-
 [markdown]
-emoji = true
-task_lists = true
-definition_lists = true
-footnotes = true
-mermaid = false        # Render ```mermaid code blocks as diagrams (loads mermaid.js)
-math = false           # Inline ($...$) and block ($$...$$) math (loads math_engine)
-math_engine = "katex"  # "katex" or "mathjax"
-
+safe = false
+lazy_loading = true

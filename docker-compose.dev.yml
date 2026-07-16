@@ -8,11 +8,11 @@ services:
     image: nugawiki:dev
     container_name: nugawiki-dev
     environment:
-      PORT: "${DEV_PORT:-1730}"
+      PORT: "${DEV_PORT:-1729}"
       NOTION_TOKEN: "${NOTION_TOKEN:-}"
       NOTION_DB_ID: "${NOTION_DB_ID:-}"
     ports:
-      - "${DEV_PORT:-1730}:${DEV_PORT:-1730}"
+      - "${DEV_PORT:-1729}:${DEV_PORT:-1729}"
     volumes:
       - ./content:/site/content
       - ./templates:/site/templates
