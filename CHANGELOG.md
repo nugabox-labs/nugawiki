@@ -2,6 +2,12 @@
 
 모든 주목할 만한 변경사항을 이 파일에 기록한다. [Semantic Versioning](https://semver.org/lang/ko/)을 따른다.
 
+## v0.8.0 - 2026-07-17
+
+### Added
+- README.md: 아키텍처 다이어그램, 디렉터리 구조, 로컬 실행법(.env 설정 + compose.sh 사용법), 배포 방법, 참고 문서 링크 작성.
+- `.env.example`에 `DEV_PORT`/`PROD_PORT` 항목 추가.
+
 ## v0.7.0 - 2026-07-17
 
 ### Added
