@@ -1,0 +1,21 @@
+name: nugawiki-dev
+
+services:
+  wiki-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: nugawiki:dev
+    container_name: nugawiki-dev
+    environment:
+      PORT: "${DEV_PORT:-1730}"
+      NOTION_TOKEN: "${NOTION_TOKEN:-}"
+      NOTION_DB_ID: "${NOTION_DB_ID:-}"
+    ports:
+      - "${DEV_PORT:-1730}:${DEV_PORT:-1730}"
+    volumes:
+      - ./content:/site/content
+      - ./templates:/site/templates
+      - ./static:/site/static
+      - ./config.toml:/site/config.toml
+      - ./scripts:/site/scripts

@@ -1,0 +1,20 @@
+# dev: hwaro serve 라이브 리로드. content/templates/static/config.toml/scripts는
+# docker-compose.dev.yml에서 바인드 마운트하므로, 이 이미지는 hwaro 바이너리 +
+# Node/npm 런타임 + npm 의존성만 준비한다.
+
+FROM ghcr.io/hahwul/hwaro:latest
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends nodejs npm \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /site
+COPY package.json package-lock.json ./
+RUN npm ci
+COPY scripts ./scripts
+RUN chmod +x ./scripts/dev-entrypoint.sh
+
+ENV PORT=1729
+EXPOSE 1729
+
+ENTRYPOINT ["./scripts/dev-entrypoint.sh"]

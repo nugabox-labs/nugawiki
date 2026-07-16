@@ -2,6 +2,17 @@
 
 모든 주목할 만한 변경사항을 이 파일에 기록한다. [Semantic Versioning](https://semver.org/lang/ko/)을 따른다.
 
+## v0.6.0 - 2026-07-17
+
+### Added
+- `Dockerfile.dev`: `ghcr.io/hahwul/hwaro:latest` 기반에 apt로 Node.js/npm을 설치하고, `scripts/dev-entrypoint.sh`가 notion-sync 1회 실행 후 `hwaro serve`를 포그라운드로 실행.
+- `docker-compose.dev.yml`: `content/templates/static/config.toml/scripts`를 바인드 마운트, `DEV_PORT`(기본 1730)로 매핑.
+- dev 서버는 `--base-url http://localhost:<port>`로 실행해 로컬 미리보기에서 nav 링크가 운영 도메인이 아닌 localhost를 가리키도록 함.
+- notion-sync 실패는 dev 모드에서는 경고만 남기고 기존 `content/`로 서버를 계속 띄움(로컬 템플릿 작업이 Notion 장애에 막히지 않도록).
+
+### Verified
+- 컨테이너를 직접 빌드·실행해 (1) 토큰 미설정 시 sync 건너뛰기, (2) base_url 오버라이드로 nav 링크가 `http://localhost:1730/...`로 렌더링됨, (3) 컨테이너 재시작 없이 `content/index.md` 수정이 즉시 반영되는 라이브 리로드를 모두 확인.
+
 ## v0.5.0 - 2026-07-17
 
 ### Added
