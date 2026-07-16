@@ -575,7 +575,7 @@ a:hover {
 }
 
 .docs-header a, .skip-link, .sidebar-links a, .docs-toc a,
-ul.section-list a, nav.pagination a, .search-result-item {
+.wiki-list-item a, .badge, nav.pagination a, .search-result-item {
   text-decoration: none;
 }
 
@@ -725,28 +725,156 @@ blockquote p:last-child {
 .info-box.warning > strong:first-child { color: var(--warn); }
 .info-box.tip > strong:first-child { color: var(--ok); }
 
-/* Section list */
-ul.section-list {
+/* Admonitions — GitHub-style > [!NOTE] blocks (native markdown,
+   used by the notion-sync callout mapping). Same tinted-surface
+   language as .info-box above. */
+.admonition {
+  padding: 0.875rem 1.125rem;
+  border-radius: var(--radius-sm);
+  margin: 1rem 0;
+  border: 1px solid;
+  font-size: 0.9rem;
+}
+
+.admonition-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.35rem;
+}
+
+.admonition-note, .admonition-important {
+  background: color-mix(in srgb, var(--primary) 6%, transparent);
+  border-color: color-mix(in srgb, var(--primary) 30%, transparent);
+}
+.admonition-note .admonition-title, .admonition-important .admonition-title { color: var(--primary); }
+
+.admonition-tip {
+  background: color-mix(in srgb, var(--ok) 8%, transparent);
+  border-color: color-mix(in srgb, var(--ok) 35%, transparent);
+}
+.admonition-tip .admonition-title { color: var(--ok); }
+
+.admonition-warning, .admonition-caution {
+  background: color-mix(in srgb, var(--warn) 8%, transparent);
+  border-color: color-mix(in srgb, var(--warn) 35%, transparent);
+}
+.admonition-warning .admonition-title, .admonition-caution .admonition-title { color: var(--warn); }
+
+/* Wiki list — category/tag/section listings share this card shape. */
+ul.wiki-list {
   list-style: none;
   padding: 0;
+  margin: var(--space-5) 0;
 }
 
-ul.section-list li {
-  margin-bottom: 0.5rem;
-  padding: 0.75rem 1rem;
+.wiki-list-item {
+  margin-bottom: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  background: var(--bg-raised);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.wiki-list-item:hover {
+  border-color: color-mix(in srgb, var(--primary) 45%, transparent);
+  box-shadow: var(--shadow-sm);
+}
+
+.wiki-list-item > a {
+  display: block;
+  text-decoration: none;
+}
+
+.wiki-list-item strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--step-0);
+  color: var(--heading);
+  margin-bottom: 0.25rem;
+}
+
+.wiki-desc {
+  display: block;
+  font-size: var(--step--1);
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* Metadata row: date + category/tag badges, shared by list cards
+   and the page detail header. */
+.wiki-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+  font-size: var(--step--1);
+  color: var(--text-muted);
+}
+
+.wiki-meta time,
+.wiki-updated {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+}
+
+.wiki-meta-page {
+  margin: 0.25rem 0 1.5rem 0;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.12rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
   background: var(--bg-subtle);
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border-subtle);
-  transition: border-color var(--transition);
+  color: var(--text-secondary);
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  text-decoration: none;
+  transition: border-color var(--transition), color var(--transition);
 }
 
-ul.section-list li:hover {
-  border-color: var(--border);
-}
-
-ul.section-list li a {
-  font-weight: 500;
+.badge:hover {
+  border-color: var(--primary);
   color: var(--primary);
+}
+
+.badge-category {
+  border-color: color-mix(in srgb, var(--primary) 35%, transparent);
+  color: var(--primary);
+}
+
+.badge-count {
+  color: var(--text-muted);
+  font-size: 0.68rem;
+}
+
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: var(--space-5) 0;
+}
+
+.wiki-external-link {
+  margin-top: var(--space-6);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border-subtle);
+  font-size: var(--step--1);
+  color: var(--text-secondary);
+}
+
+.ad-slot {
+  margin: var(--space-6) 0;
 }
 
 /* Navigation pagination */

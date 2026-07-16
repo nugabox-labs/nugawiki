@@ -4,7 +4,24 @@
 <div class="docs-container">
 {% include "partials/sidebar.html" %}
   <main id="main" class="docs-main">
-    <h1>{{ page.title | e }}</h1>
-    <p class="taxonomy-desc">Pages tagged with this term:</p>
-    {{ content }}
+    <h1>{{ taxonomy_term | e }}</h1>
+    <p class="taxonomy-desc">{% if taxonomy_name == "tags" %}'{{ taxonomy_term | e }}' 태그가 붙은 문서{% else %}'{{ taxonomy_term | e }}' 카테고리의 문서{% endif %}:</p>
+
+    {% set tax = get_taxonomy(kind=taxonomy_name) %}
+    <ul class="wiki-list">
+    {% for term in tax.items if term.name == taxonomy_term %}
+      {% for p in term.pages %}
+      <li class="wiki-list-item">
+        <a href="{{ base_url }}{{ p.url }}">
+          <strong>{{ p.title | e }}</strong>
+          {% if p.description %}<span class="wiki-desc">{{ p.description | e }}</span>{% endif %}
+        </a>
+        <div class="wiki-meta">
+          {% if p.date %}<time>{{ p.date }}</time>{% endif %}
+        </div>
+      </li>
+      {% endfor %}
+    {% endfor %}
+    </ul>
+    {% include "partials/ad-slot.html" %}
 {% include "footer.html" %}

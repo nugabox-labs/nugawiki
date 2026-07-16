@@ -2,6 +2,15 @@
 
 모든 주목할 만한 변경사항을 이 파일에 기록한다. [Semantic Versioning](https://semver.org/lang/ko/)을 따른다.
 
+## v0.4.0 - 2026-07-17
+
+### Added
+- `<head>`와 `templates/partials/ad-slot.html`에 AdSense 자리 마련(주석 처리, 기본 비활성).
+- `section.html`: `section.pages`를 직접 순회해 날짜·카테고리·태그 배지가 붙은 카드 목록으로 교체.
+- `taxonomy.html`/`taxonomy_term.html`: `get_taxonomy()`로 태그 클라우드/문서 카드 목록을 직접 구성하고 한국어 라벨 적용.
+- `page.html`: 날짜/업데이트/카테고리/태그 메타 라인과 `extra.external_url`(원문 링크) 노출 추가.
+- Notion 콜아웃과 매핑되는 GitHub 스타일 admonition(`> [!TIP]` 등) CSS 추가.
+
 ## v0.3.0 - 2026-07-17
 
 ### Added

@@ -7,9 +7,29 @@
     {% if page.title is present %}<h1>{{ page.title | e }}</h1>{% endif %}
     {{ content }}
 
-    <h2>In This Section</h2>
-    <ul class="section-list">
-      {{ section.list }}
+    {% if section.subsections | length > 0 %}
+    <div class="link-cards">
+      {% for sub in section.subsections %}
+      <a class="link-card" href="{{ base_url }}{{ sub.url }}"><strong>{{ sub.title | e }}</strong><span>{{ sub.pages_count }}개 문서</span></a>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <ul class="wiki-list">
+      {% for p in section.pages %}
+      <li class="wiki-list-item">
+        <a href="{{ base_url }}{{ p.url }}">
+          <strong>{{ p.title | e }}</strong>
+          {% if p.description %}<span class="wiki-desc">{{ p.description | e }}</span>{% endif %}
+        </a>
+        <div class="wiki-meta">
+          {% if p.date %}<time>{{ p.date }}</time>{% endif %}
+          {% for c in p.categories %}<a class="badge badge-category" href="{{ base_url }}/categories/{{ c | slugify }}/">{{ c }}</a>{% endfor %}
+          {% for t in p.tags %}<a class="badge" href="{{ base_url }}/tags/{{ t | slugify }}/">{{ t }}</a>{% endfor %}
+        </div>
+      </li>
+      {% endfor %}
     </ul>
     {{ pagination }}
+    {% include "partials/ad-slot.html" %}
 {% include "footer.html" %}

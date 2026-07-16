@@ -5,6 +5,18 @@
 {% include "partials/sidebar.html" %}
   <main id="main" class="docs-main">
     {% if page.title is present %}<h1>{{ page.title | e }}</h1>{% endif %}
+    {% if page.date or page.categories | length > 0 or page.tags | length > 0 %}
+    <div class="wiki-meta wiki-meta-page">
+      {% if page.date %}<time>{{ page.date }}</time>{% endif %}
+      {% if page.updated and page.updated != page.date %}<span class="wiki-updated">업데이트 {{ page.updated }}</span>{% endif %}
+      {% for c in page.categories %}<a class="badge badge-category" href="{{ base_url }}/categories/{{ c | slugify }}/">{{ c }}</a>{% endfor %}
+      {% for t in page.tags %}<a class="badge" href="{{ base_url }}/tags/{{ t | slugify }}/">{{ t }}</a>{% endfor %}
+    </div>
+    {% endif %}
     {% if toc %}<nav class="docs-toc" aria-label="On this page"><p class="docs-toc-title">On this page</p>{{ toc }}</nav>{% endif %}
     {{ content }}
+    {% if page.extra.external_url %}
+    <p class="wiki-external-link">원문: <a href="{{ page.extra.external_url }}" target="_blank" rel="noopener">{{ page.extra.external_url }}</a></p>
+    {% endif %}
+    {% include "partials/ad-slot.html" %}
 {% include "footer.html" %}
