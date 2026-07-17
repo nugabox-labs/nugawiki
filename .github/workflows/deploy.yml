@@ -17,10 +17,16 @@ env:
 jobs:
   deploy:
     runs-on: [self-hosted, linux, x64, nugacloud]
+    timeout-minutes: 20
 
     steps:
       - name: Deploy on Production Server
         id: deploy
+        env:
+          # git이 자격증명/호스트 키 확인 프롬프트에서 무한 대기하지 않고
+          # 바로 실패하도록 강제한다(원인 불명 행 방지).
+          GIT_TERMINAL_PROMPT: "0"
+          GIT_SSH_COMMAND: "ssh -o BatchMode=yes -o StrictHostKeyChecking=accept-new -o ConnectTimeout=15"
         run: |
           set -euo pipefail
 
