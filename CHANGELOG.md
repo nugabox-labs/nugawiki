@@ -2,6 +2,14 @@
 
 모든 주목할 만한 변경사항을 이 파일에 기록한다. [Semantic Versioning](https://semver.org/lang/ko/)을 따른다.
 
+## v0.11.4 - 2026-07-17
+
+### Fixed
+- `builder`가 공유 볼륨에 쓴 정적 자산(css/js/svg)을 `wiki`(nginx, non-root) 컨테이너가 403 Permission Denied로 못 읽던 문제 수정. `build-loop.sh`가 `hwaro build` 직후 `chmod -R a+rX /site/public`으로 world-readable을 명시적으로 보장한다.
+
+### Verified
+- 로컬에서 `/`, `/css/style.css`, `/js/site.js`, `/js/search.js`, `/favicon.svg` 전부 200 확인.
+
 ## v0.11.3 - 2026-07-17
 
 ### Fixed

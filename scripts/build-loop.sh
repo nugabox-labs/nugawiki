@@ -19,6 +19,10 @@ run_cycle() {
   fi
   echo "[build-loop] hwaro build 실행..."
   hwaro build --minify -o /site/public
+
+  # wiki(nginx) 컨테이너는 이 볼륨을 non-root로 읽으므로, builder가
+  # 쓴 파일의 소유권/umask와 무관하게 world-readable을 보장한다.
+  chmod -R a+rX /site/public
 }
 
 while true; do
