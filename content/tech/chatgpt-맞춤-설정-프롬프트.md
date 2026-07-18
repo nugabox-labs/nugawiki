@@ -4,6 +4,7 @@ date = "2025-07-04T00:28:00.000Z"
 updated = "2025-07-04T00:33:00.000Z"
 categories = ["TECH"]
 tags = ["ISSUE"]
+toc = true
 
 [extra]
 source = "notion"

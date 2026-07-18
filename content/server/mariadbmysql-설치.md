@@ -4,6 +4,7 @@ date = "2020-10-27T00:47:00.000Z"
 updated = "2025-02-24T02:45:00.000Z"
 categories = ["SERVER"]
 tags = ["DB", "MySQL"]
+toc = true
 
 [extra]
 source = "notion"

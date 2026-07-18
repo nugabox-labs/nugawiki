@@ -4,6 +4,7 @@ date = "2025-06-27T01:05:00.000Z"
 updated = "2025-06-27T01:10:00.000Z"
 categories = ["OS"]
 tags = ["WINDOWS"]
+toc = true
 
 [extra]
 source = "notion"

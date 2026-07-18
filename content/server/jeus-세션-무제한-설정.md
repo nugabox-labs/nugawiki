@@ -4,6 +4,7 @@ date = "2022-04-14T04:36:00.000Z"
 updated = "2023-09-19T08:06:00.000Z"
 categories = ["SERVER"]
 tags = ["WAS"]
+toc = true
 
 [extra]
 source = "notion"

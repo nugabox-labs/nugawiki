@@ -4,6 +4,7 @@ date = "2021-08-10T14:39:00.000Z"
 updated = "2024-01-29T08:40:00.000Z"
 categories = ["DEV-OPS"]
 tags = ["GIT/SVN"]
+toc = true
 
 [extra]
 source = "notion"

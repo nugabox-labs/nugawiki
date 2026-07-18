@@ -4,6 +4,7 @@ date = "2023-04-16T15:20:00.000Z"
 updated = "2023-04-16T15:22:00.000Z"
 categories = ["OS", "BACK-END"]
 tags = ["LINUX", "PHP"]
+toc = true
 
 [extra]
 source = "notion"

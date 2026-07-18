@@ -4,6 +4,7 @@ date = "2021-04-14T07:28:00.000Z"
 updated = "2022-06-25T18:56:00.000Z"
 categories = ["FRONT-END"]
 tags = ["HTML", "JS"]
+toc = true
 
 [extra]
 source = "notion"

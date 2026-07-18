@@ -4,6 +4,7 @@ date = "2021-02-01T01:58:00.000Z"
 updated = "2022-06-25T18:56:00.000Z"
 categories = ["OS"]
 tags = ["LINUX"]
+toc = true
 
 [extra]
 source = "notion"

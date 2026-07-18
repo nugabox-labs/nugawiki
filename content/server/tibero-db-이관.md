@@ -4,6 +4,7 @@ date = "2021-05-06T01:12:00.000Z"
 updated = "2024-01-09T02:54:00.000Z"
 categories = ["SERVER"]
 tags = ["DB", "Tibero"]
+toc = true
 
 [extra]
 source = "notion"

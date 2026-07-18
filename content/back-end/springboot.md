@@ -4,6 +4,7 @@ date = "2023-11-10T04:51:00.000Z"
 updated = "2023-11-10T04:53:00.000Z"
 categories = ["BACK-END"]
 tags = ["JAVA"]
+toc = true
 
 [extra]
 source = "notion"

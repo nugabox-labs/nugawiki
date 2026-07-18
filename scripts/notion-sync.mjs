@@ -24,6 +24,7 @@ const ASSET_DIR = path.join(ROOT_DIR, "static", "notion-assets");
 const PROP = {
   title: "이름",
   tags: "태그",
+  category: "카테고리",
   publish: "배포",
   publishDate: "PublishDate",
   modifyDate: "ModifyDate",
@@ -43,11 +44,15 @@ const FIXED_CATEGORIES = [
   { name: "OS", slug: "os", description: "운영체제 관련 문서", weight: 1 },
   { name: "SERVER", slug: "server", description: "서버 인프라 관련 문서", weight: 2 },
   { name: "BACK-END", slug: "back-end", description: "백엔드 개발 관련 문서", weight: 3 },
-  { name: "TECH", slug: "tech", description: "기술 전반에 대한 문서", weight: 4 },
+  { name: "FRONT-END", slug: "front-end", description: "프론트엔드 개발 관련 문서", weight: 4 },
   { name: "DEV-OPS", slug: "dev-ops", description: "데브옵스/배포 관련 문서", weight: 5 },
-  { name: "FRONT-END", slug: "front-end", description: "프론트엔드 개발 관련 문서", weight: 6 },
+  { name: "TECH", slug: "tech", description: "기술 전반에 대한 문서", weight: 6 },
 ];
-const CATEGORY_BY_NAME = new Map(FIXED_CATEGORIES.map((c) => [c.name, c]));
+// POSTS는 사이드바 "./categories" 목록에는 노출되지 않는 별도 대분류.
+// Notion "카테고리" 속성 값이 "Post"인 페이지만 태그와 무관하게 여기로 분류된다.
+const POST_CATEGORY = { name: "posts", slug: "posts", description: "", weight: 100 };
+const ALL_CATEGORIES = [...FIXED_CATEGORIES, POST_CATEGORY];
+const CATEGORY_BY_NAME = new Map(ALL_CATEGORIES.map((c) => [c.name, c]));
 const CATEGORY_ORDER = FIXED_CATEGORIES.map((c) => c.name);
 
 const TAG_TO_CATEGORY = {
@@ -332,6 +337,7 @@ function buildFrontMatter(page) {
   if (page.updated) lines.push(`updated = ${tomlString(page.updated)}`);
   lines.push(`categories = ${tomlStringArray(page.categories)}`);
   lines.push(`tags = ${tomlStringArray(page.tags)}`);
+  lines.push(`toc = true`);
   lines.push("");
   lines.push("[extra]");
   lines.push(`source = "notion"`);
@@ -385,7 +391,7 @@ async function main() {
   }
 
   console.log("[notion-sync] 고정 카테고리 섹션을 갱신합니다...");
-  for (const cat of FIXED_CATEGORIES) {
+  for (const cat of ALL_CATEGORIES) {
     const indexPath = path.join(CONTENT_DIR, cat.slug, "_index.md");
     await mkdir(path.dirname(indexPath), { recursive: true });
     const indexMd = `+++\ntitle = ${tomlString(cat.name)}\ndescription = ${tomlString(cat.description)}\nsort_by = "date"\nweight = ${cat.weight}\n\n[extra]\nsource = "fixed-category"\n+++\n`;
@@ -413,7 +419,8 @@ async function main() {
     const props = page.properties;
     const title = getTitle(props) || "(제목 없음)";
     const tags = getMultiSelect(props, PROP.tags);
-    const categories = deriveCategories(tags);
+    const noteCategory = getMultiSelect(props, PROP.category);
+    const categories = noteCategory.includes("Post") ? ["posts"] : deriveCategories(tags);
     const date =
       getDateStart(props, PROP.publishDate) ??
       props[PROP.createDate]?.created_time ??

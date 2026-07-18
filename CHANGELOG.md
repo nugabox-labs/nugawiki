@@ -2,6 +2,16 @@
 
 모든 주목할 만한 변경사항을 이 파일에 기록한다. [Semantic Versioning](https://semver.org/lang/ko/)을 따른다.
 
+## v0.12.0 - 2026-07-18
+
+### Added
+- 고정 카테고리 순서를 OS, SERVER, BACK-END, FRONT-END, DEV-OPS, TECH로 재조정.
+- Notion "카테고리" 속성 값이 `Post`인 페이지를 위한 별도 대분류 `posts`를 추가. 사이드바 "./categories" 목록에는 노출되지 않고 `~/posts` 메뉴로만 접근한다.
+- 모든 동기화 문서 front matter에 `toc = true`를 추가해 본문 목차(table of contents)가 생성되도록 함.
+
+### Changed
+- `content/*.md`를 최신 Notion 상태로 재동기화(카테고리 재배치, posts 신규 3건 반영).
+
 ## v0.11.4 - 2026-07-17
 
 ### Fixed

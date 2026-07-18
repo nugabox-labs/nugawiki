@@ -4,6 +4,7 @@ date = "2021-06-28T05:49:00.000Z"
 updated = "2025-05-31T11:58:00.000Z"
 categories = ["OS", "SERVER"]
 tags = ["SYNOLOGY", "WEB"]
+toc = true
 
 [extra]
 source = "notion"

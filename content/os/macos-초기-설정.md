@@ -4,6 +4,7 @@ date = "2021-01-21T15:59:00.000Z"
 updated = "2025-06-12T02:03:00.000Z"
 categories = ["OS"]
 tags = ["MACOS"]
+toc = true
 
 [extra]
 source = "notion"
