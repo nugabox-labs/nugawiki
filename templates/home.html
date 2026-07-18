@@ -7,6 +7,10 @@
         {% set total_docs = (site.sections | sum(attribute="pages_count")) - post_pages_count %}
         <div class="doc-meta">
           <span>SINCE 2019</span>
+          <span class="doc-meta-sep" aria-hidden="true">&middot;</span>
+          <span>TODAY <span id="view-count-today">&mdash;</span></span>
+          <span class="doc-meta-sep" aria-hidden="true">&middot;</span>
+          <span>TOTAL <span id="view-count-total">&mdash;</span></span>
         </div>
 
         <div class="chip-row">

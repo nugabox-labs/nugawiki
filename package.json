@@ -1,6 +1,6 @@
 {
   "name": "nugawiki",
-  "version": "0.14.1",
+  "version": "0.15.0",
   "private": true,
   "description": "NUGAWIKI - Notion 기반 기술 위키/블로그 (Hwaro SSG)",
   "type": "module",

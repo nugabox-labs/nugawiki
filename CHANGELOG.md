@@ -2,6 +2,11 @@
 
 모든 주목할 만한 변경사항을 이 파일에 기록한다. [Semantic Versioning](https://semver.org/lang/ko/)을 따른다.
 
+## v0.15.0 - 2026-07-18
+
+### Added
+- 홈 화면 `SINCE 2019` 옆에 구분점(&middot;)과 함께 `TODAY`/`TOTAL` 조회수 표시 추가. 무료 카운터 API([Abacus](https://abacus.jasoncameron.dev/))를 클라이언트에서 호출해 오늘 방문 수와 누적 방문 수를 집계.
+
 ## v0.14.1 - 2026-07-18
 
 ### Fixed

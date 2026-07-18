@@ -293,3 +293,35 @@ var showCopyToast = (function () {
   wireToggle("env-toggle-wrap", STORAGE_WRAP, true);
   wireToggle("env-toggle-linenumbers", STORAGE_LN, false);
 })();
+
+(function () {
+  "use strict";
+  var todayEl = document.getElementById("view-count-today");
+  var totalEl = document.getElementById("view-count-total");
+  if (!todayEl || !totalEl) return;
+
+  var NAMESPACE = "wiki.nugabox.com";
+  var TOTAL_KEY = "home-views";
+
+  function pad(n) {
+    return n < 10 ? "0" + n : String(n);
+  }
+
+  var now = new Date();
+  var TODAY_KEY = "home-views-" + now.getFullYear() + "-" + pad(now.getMonth() + 1) + "-" + pad(now.getDate());
+
+  function hit(key, el) {
+    var url = "https://abacus.jasoncameron.dev/hit/" + encodeURIComponent(NAMESPACE) + "/" + encodeURIComponent(key);
+    fetch(url)
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        el.textContent = Number(data.value).toLocaleString();
+      })
+      .catch(function () {
+        el.textContent = "-";
+      });
+  }
+
+  hit(TOTAL_KEY, totalEl);
+  hit(TODAY_KEY, todayEl);
+})();

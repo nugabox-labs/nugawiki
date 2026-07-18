@@ -469,6 +469,7 @@ html.code-linenumbers-on .code-line-no { display: inline-block; }
   margin-bottom: var(--space-4);
 }
 .docs-main--home .doc-meta { border-bottom: none; padding-bottom: 0; }
+.doc-meta-sep { opacity: .5; }
 .doc-tags { display: flex; gap: .4rem; flex-wrap: wrap; }
 .tag-chip {
   display: inline-block;
