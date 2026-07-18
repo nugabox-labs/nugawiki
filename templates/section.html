@@ -1,28 +1,36 @@
 {% include "header.html" %}
       <main id="main" class="docs-main">
         <article class="doc-article doc-article--section">
-          <p class="topic-path">./categories</p>
-          <h1>{{ page.title }}</h1>
+          <p class="topic-path">./{% if section.name == "posts" %}posts{% else %}categories{% endif %}</p>
+          <h1>{{ page.title }}<span class="brand-cursor" aria-hidden="true">_</span></h1>
           {% if page.description %}<p class="doc-dek">{{ page.description }}</p>{% endif %}
+
+          <div class="tag-filter-bar" id="tag-filter-bar" role="group" aria-label="태그로 필터" hidden></div>
 
           <div class="prose">
             {{ content | safe }}
           </div>
 
           {% set pages = section.pages | sort_by("date") | reverse %}
-          <ol class="doc-index">
+          <ol class="doc-index" id="doc-index-list">
             {% for p in pages %}
-            <li>
+            <li data-tags="{% for t in p.tags %}{{ t }}{% if not loop.last %},{% endif %}{% endfor %}">
               <a href="{{ base_url }}{{ p.url }}">
                 <span class="doc-index-body">
                   <span class="doc-index-title">{{ p.title }}</span>
                   {% if p.description %}<span class="doc-index-desc">{{ p.description | truncate_words(20) }}</span>{% endif %}
                 </span>
-                <span class="doc-index-watts">{% if p.date %}{{ p.date | date('%Y-%m-%d') }}{% endif %}</span>
+                <span class="doc-index-meta">
+                  {% if p.tags | length > 0 %}
+                  <span class="doc-index-tags">{% for t in p.tags %}<span class="tag-chip-mini">#{{ t }}</span>{% endfor %}</span>
+                  {% endif %}
+                  <span class="doc-index-watts">{% if p.date %}{{ p.date | date('%Y-%m-%d') }}{% endif %}</span>
+                </span>
               </a>
             </li>
             {% endfor %}
           </ol>
+          <p class="doc-index-empty" id="doc-index-empty" hidden>일치하는 문서가 없습니다.</p>
           {% include "partials/ad-slot.html" %}
         </article>
       </main>

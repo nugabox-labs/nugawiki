@@ -1,31 +1,32 @@
 {% include "header.html" %}
       <main id="main" class="docs-main docs-main--home">
-        <h1 class="hero-title hero-title--home">{{ page.title }}</h1>
+        <h1 class="hero-title hero-title--home">{{ page.title }}<span class="brand-cursor" aria-hidden="true">_</span></h1>
         {% if page.description %}<p class="hero-lede">{{ page.description }}</p>{% endif %}
 
+        {% set post_pages_count = get_section(path="posts").pages_count %}
+        {% set total_docs = (site.sections | sum(attribute="pages_count")) - post_pages_count %}
         <div class="doc-meta">
           <span>SINCE 2019</span>
-          <span>{{ site.sections | length }}개 카테고리</span>
-          <span>{{ site.sections | sum(attribute="pages_count") }}개 문서</span>
         </div>
 
-        <div class="prose prose--home">
-          {{ content | safe }}
+        <div class="chip-row">
+          <a class="tag-chip" href="{{ base_url }}/about/">./about</a>
+          <a class="tag-chip" href="{{ base_url }}/posts/">./posts</a>
+          <a class="tag-chip" href="{{ base_url }}/tags/">./tags</a>
         </div>
 
         {% if site.sections | length > 0 %}
         <section class="inventory-grid" aria-label="카테고리">
-          <p class="section-kicker">./categories &mdash; {{ site.sections | length }} entries</p>
+          <p class="section-kicker">./categories &mdash; {{ (site.sections | length) - 1 }} entries &middot; {{ total_docs }} posts</p>
           <div class="inv-cards">
             {% for sec in site.sections | sort_by("weight") %}
-            {% if sec.name != "" %}
+            {% if sec.name != "" and sec.name != "posts" %}
             <a class="inv-card" href="{{ base_url }}{{ sec.url }}">
               <span class="inv-card-top">
                 <span class="inv-card-host">{{ sec.title }}</span>
-                <span class="inv-card-kind">CATEGORY</span>
+                <span class="inv-card-kind">{{ sec.pages_count }} posts</span>
               </span>
               {% if sec.description %}<span class="inv-card-desc">{{ sec.description | truncate_words(16) }}</span>{% endif %}
-              <span class="inv-card-watts">{{ sec.pages_count }}개 문서</span>
             </a>
             {% endif %}
             {% endfor %}

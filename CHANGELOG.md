@@ -2,6 +2,23 @@
 
 모든 주목할 만한 변경사항을 이 파일에 기록한다. [Semantic Versioning](https://semver.org/lang/ko/)을 따른다.
 
+## v0.13.0 - 2026-07-18
+
+### Added
+- 사이드바 메뉴를 `~/main`, `~/about`, `~/posts`, `./categories`, `browse --tags`, `~/.env`로 재구성.
+- `about` 페이지 신규 작성(사진 로컬 서빙, INTJ 소개, 소셜 링크 — 전부 새 탭으로 열림).
+- 홈 화면을 "Hello, nugawiki!" 타이틀 + Posts 미리보기(최신 2~3개, 카테고리 그리드와 다른 레이아웃) + 카테고리 카드로 재구성. 카드에 문서 수(N posts) 표시.
+- `~/.env` 설정 페이지 추가: 코드블럭 줄바꿈(기본 on)/줄번호(기본 off) 토글을 `localStorage`에 저장하고 전 페이지에 반영.
+- 문서 본문에 목차(TOC) 렌더링, 소제목 옆 링크 복사 버튼, 코드블럭 우측 상단 복사 버튼과 줄번호 거터를 추가.
+- 카테고리 목록 페이지에 태그 필터 칩(클릭 시 즉시 필터링) 추가.
+- 페이지 타이틀에 헤더 브랜드와 동일한 깜빡이는 커서 효과 추가(main/about/posts/카테고리/tags).
+
+### Fixed
+- `html`/`body`에 중복 설정된 `overflow-x: hidden`이 `position: sticky`(목차 사이드바)를 깨뜨리던 문제 수정.
+- 코드블럭 배경이 highlight.js 테마와 이중 박스로 보이던 문제 수정.
+- 코드 줄번호가 줄바꿈된 긴 줄과 어긋나던 문제 수정 — 줄마다 번호+내용을 한 행으로 묶어 렌더링. highlight.js가 `DOMContentLoaded`에서 한 번 더 재하이라이트하며 이 구조를 지우던 경쟁 조건도 함께 수정(`setTimeout`으로 지연 실행).
+- 정적 자산(css/js) 캐시 무효화를 위해 `?v=` 쿼리스트링 추가.
+
 ## v0.12.0 - 2026-07-18
 
 ### Added

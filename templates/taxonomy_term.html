@@ -15,7 +15,12 @@
                       <span class="doc-index-title">{{ p.title }}</span>
                       {% if p.description %}<span class="doc-index-desc">{{ p.description | truncate_words(20) }}</span>{% endif %}
                     </span>
-                    <span class="doc-index-watts">{% if p.date %}{{ p.date | date('%Y-%m-%d') }}{% endif %}</span>
+                    <span class="doc-index-meta">
+                      {% if p.tags | length > 0 %}
+                      <span class="doc-index-tags">{% for t in p.tags %}<span class="tag-chip-mini">#{{ t }}</span>{% endfor %}</span>
+                      {% endif %}
+                      <span class="doc-index-watts">{% if p.date %}{{ p.date | date('%Y-%m-%d') }}{% endif %}</span>
+                    </span>
                   </a>
                 </li>
                 {% endfor %}

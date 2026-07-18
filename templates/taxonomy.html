@@ -2,7 +2,7 @@
       <main id="main" class="docs-main">
         <article class="doc-article">
           <p class="topic-path">./{{ taxonomy_name }}</p>
-          <h1>{% if taxonomy_name == "tags" %}태그{% else %}카테고리{% endif %}</h1>
+          <h1>{% if taxonomy_name == "tags" %}tags{% else %}카테고리{% endif %}<span class="brand-cursor" aria-hidden="true">_</span></h1>
           <p class="doc-dek">{% if taxonomy_name == "tags" %}문서에 사용된 태그 목록입니다.{% else %}문서를 분류하는 카테고리 목록입니다.{% endif %}</p>
           {% set tax = get_taxonomy(kind=taxonomy_name) %}
           <ul class="term-list">

@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ base_url }}/css/style.css">
+  <link rel="stylesheet" href="{{ base_url }}/css/style.css?v=1">
   {{ og_all_tags }}
   {{ canonical_tag }}
   {{ jsonld }}
@@ -66,20 +66,24 @@
             <kbd>Ctrl K</kbd>
           </button>
 
-          <a class="sidebar-home-link" href="{{ base_url }}/">~/nugawiki</a>
+          <a class="sidebar-home-link" href="{{ base_url }}/">~/main</a>
+          <a class="sidebar-home-link" href="{{ base_url }}/about/">~/about</a>
+          <a class="sidebar-home-link" href="{{ base_url }}/posts/">~/posts</a>
 
           <p class="sidebar-heading">./categories</p>
           <div class="sidebar-group">
             <ul class="sidebar-links">
               {% for sec in site.sections | sort_by("weight") %}
-              {% if sec.name != "" %}
+              {% if sec.name != "" and sec.name != "posts" %}
               <li><a href="{{ base_url }}{{ sec.url }}"{% if page.url == sec.url %} aria-current="page"{% endif %}><span class="sidebar-dot" aria-hidden="true"></span>{{ sec.title }}</a></li>
               {% endif %}
               {% endfor %}
             </ul>
           </div>
 
-          <a class="sidebar-home-link sidebar-tags-link" href="{{ base_url }}/categories/">browse --categories</a>
           <a class="sidebar-home-link" href="{{ base_url }}/tags/">browse --tags</a>
+
+          <hr class="sidebar-divider" aria-hidden="true">
+          <a class="sidebar-home-link" href="{{ base_url }}/env/">~/.env</a>
         </div>
       </nav>
