@@ -2,6 +2,16 @@
 
 모든 주목할 만한 변경사항을 이 파일에 기록한다. [Semantic Versioning](https://semver.org/lang/ko/)을 따른다.
 
+## v0.14.0 - 2026-07-18
+
+### Added
+- 512x512 앱 아이콘(`static/app-icon-512.png`, 헤더 브랜드 마크를 검정 배경에 확대) 추가.
+- 소셜 공유용 메타 이미지(`static/nugawiki_meta.jpg`, 1200x630)를 `[og] default_image`로 등록.
+
+### Changed
+- 홈(`/`) 브라우저 탭 타이틀을 `Hello, nugawiki! :: NUGAWIKI` 대신 `NUGAWIKI`만 표시하도록 변경.
+- 홈 화면 하단 여백 축소 — 사이드바가 `100vh` 고정 높이를 강제해 카테고리 카드 아래로 큰 공백이 생기던 것을, 홈에서만 사이드바/레이아웃이 콘텐츠 길이에 맞게 줄어들도록 수정(다른 페이지의 스티키 사이드바/푸터 동작은 그대로 유지).
+
 ## v0.13.0 - 2026-07-18
 
 ### Added

@@ -338,6 +338,13 @@ html.code-linenumbers-on .code-line-no { display: inline-block; }
   width: 100%;
   min-width: 0;
 }
+/* On home, let the footer sit right after the content instead of being
+   pinned to the viewport bottom by the flex-grow "sticky footer" pattern.
+   The sidebar's own forced full-viewport height drives the row's height
+   too, so it needs to shrink-to-fit here as well (still caps + scrolls
+   internally if nav content ever grows past the viewport). */
+.docs-layout--home { flex: 0 1 auto; }
+.docs-layout--home .sidebar { height: auto; max-height: calc(100vh - var(--topbar-h)); }
 
 .sidebar {
   position: sticky;
@@ -442,7 +449,7 @@ html.code-linenumbers-on .code-line-no { display: inline-block; }
 .sidebar-divider { border: none; border-top: 1px dashed var(--border); margin: var(--space-3) 0; }
 
 .docs-main { flex: 1; min-width: 0; padding: var(--space-6) var(--space-5) var(--space-7); }
-.docs-main--home { padding-top: var(--space-5); }
+.docs-main--home { padding-top: var(--space-5); padding-bottom: var(--space-4); }
 
 /* ---- Article / TOC columns ---------------------------------------------------- */
 

@@ -43,6 +43,7 @@ type = "rss"
 limit = 10
 
 [og]
+default_image = "/nugawiki_meta.jpg"
 type = "article"
 twitter_card = "summary_large_image"
 
