@@ -10,6 +10,22 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ base_url }}/css/style.css?v=1">
+  {# Social preview always reads as a clean brand tagline, independent of each
+     page's own title/description. These override tags precede og_all_tags's
+     own og:title/og:description so link-preview parsers (which use the first
+     matching tag) pick these instead. #}
+  {% if page.url == "/" %}
+  <meta property="og:title" content="{{ site.title | e }}">
+  <meta name="twitter:title" content="{{ site.title | e }}">
+  {% elif page.title is present %}
+  <meta property="og:title" content="{{ page.title | e }} :: {{ site.title | e }}">
+  <meta name="twitter:title" content="{{ page.title | e }} :: {{ site.title | e }}">
+  {% else %}
+  <meta property="og:title" content="{{ site.title | e }}">
+  <meta name="twitter:title" content="{{ site.title | e }}">
+  {% endif %}
+  <meta property="og:description" content="Archive of experience and knowledge">
+  <meta name="twitter:description" content="Archive of experience and knowledge">
   {{ og_all_tags }}
   {{ canonical_tag }}
   {{ jsonld }}
