@@ -2,6 +2,11 @@
 
 모든 주목할 만한 변경사항을 이 파일에 기록한다. [Semantic Versioning](https://semver.org/lang/ko/)을 따른다.
 
+## v0.16.0 - 2026-07-21
+
+### Added
+- 문서 페이지(`page.html`) 하단에 [Giscus](https://giscus.app) 댓글 연동. GitHub Discussions(`Announcements` 카테고리)에 저장되며, 다크 테마(`transparent_dark`)·한국어·pathname 매핑·lazy loading을 사용한다.
+
 ## v0.15.1 - 2026-07-21
 
 ### Fixed
