@@ -193,15 +193,28 @@ async function mirrorImage(pageId, url) {
 async function listChildren(blockId) {
   const blocks = [];
   let cursor;
-  do {
-    const res = await notion.blocks.children.list({
-      block_id: blockId,
-      start_cursor: cursor,
-      page_size: 100,
-    });
-    blocks.push(...res.results);
-    cursor = res.has_more ? res.next_cursor : undefined;
-  } while (cursor);
+  try {
+    do {
+      const res = await notion.blocks.children.list({
+        block_id: blockId,
+        start_cursor: cursor,
+        page_size: 100,
+      });
+      blocks.push(...res.results);
+      cursor = res.has_more ? res.next_cursor : undefined;
+    } while (cursor);
+  } catch (err) {
+    // 삭제된 child_page / 통합에 공유되지 않은 하위 블록은 건너뛴다.
+    // 한 블록 때문에 전체 sync가 중단되면 운영 주기 갱신이 멈춘다.
+    const code = err?.code ?? err?.body?.code;
+    if (code === "object_not_found") {
+      console.warn(
+        `[notion-sync] 하위 블록 조회 실패(건너뜀): ${blockId} — ${err.message}`
+      );
+      return [];
+    }
+    throw err;
+  }
   return blocks;
 }
 
@@ -486,18 +499,26 @@ async function main() {
 
   // 4) 콘텐츠 렌더링 및 기록
   let written = 0;
+  let failed = 0;
   for (const page of desired) {
-    const blocks = await listChildren(page.id);
-    const body = await renderChildren(blocks, page.id);
-    const md = `${buildFrontMatter(page)}\n\n${body}\n`;
-    const absPath = path.join(CONTENT_DIR, page.relPath);
-    await mkdir(path.dirname(absPath), { recursive: true });
-    await writeFile(absPath, md, "utf8");
-    written++;
+    try {
+      const blocks = await listChildren(page.id);
+      const body = await renderChildren(blocks, page.id);
+      const md = `${buildFrontMatter(page)}\n\n${body}\n`;
+      const absPath = path.join(CONTENT_DIR, page.relPath);
+      await mkdir(path.dirname(absPath), { recursive: true });
+      await writeFile(absPath, md, "utf8");
+      written++;
+    } catch (err) {
+      failed++;
+      console.warn(
+        `[notion-sync] 페이지 동기화 실패(건너뜀): ${page.title} (${page.id}) — ${err.message}`
+      );
+    }
   }
 
   console.log(
-    `[notion-sync] 완료: ${written}건 동기화, ${removed}건 정리(reconciliation).`
+    `[notion-sync] 완료: ${written}건 동기화, ${removed}건 정리(reconciliation)${failed ? `, ${failed}건 실패(건너뜀)` : ""}.`
   );
 }
 

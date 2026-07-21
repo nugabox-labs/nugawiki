@@ -2,6 +2,11 @@
 
 모든 주목할 만한 변경사항을 이 파일에 기록한다. [Semantic Versioning](https://semver.org/lang/ko/)을 따른다.
 
+## v0.15.1 - 2026-07-21
+
+### Fixed
+- notion-sync가 삭제된 child_page/공유되지 않은 하위 블록(`object_not_found`)에서 전체 동기화를 중단하던 문제 수정. 해당 블록·페이지는 경고 후 건너뛰고 나머지를 계속 처리한다. (운영 builder 주기 갱신이 이 때문에 사실상 멈춰 있었음)
+
 ## v0.15.0 - 2026-07-18
 
 ### Added
