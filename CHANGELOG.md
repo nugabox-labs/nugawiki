@@ -2,6 +2,11 @@
 
 모든 주목할 만한 변경사항을 이 파일에 기록한다. [Semantic Versioning](https://semver.org/lang/ko/)을 따른다.
 
+## v0.17.3 - 2026-07-21
+
+### Fixed
+- Google Search Console 인증 파일이 배포 직후 404로 나오던 문제. `build-loop`에서 notion-sync 전에 hwaro build를 먼저 실행하고, nginx에 인증 파일을 직접 마운트하며, 재빌드 배포 시 즉시 hwaro build를 한 번 더 실행한다.
+
 ## v0.17.2 - 2026-07-21
 
 ### Fixed

@@ -8,21 +8,30 @@ set -u
 
 INTERVAL="${SYNC_INTERVAL_SECONDS:-900}"
 
-run_cycle() {
-  if [ -n "${NOTION_TOKEN:-}" ] && [ -n "${NOTION_DB_ID:-}" ]; then
-    echo "[build-loop] notion-sync 실행..."
-    if ! npm run sync; then
-      echo "[build-loop] notion-sync 실패 - 기존 content/로 계속 진행합니다." >&2
-    fi
-  else
-    echo "[build-loop] NOTION_TOKEN/NOTION_DB_ID 미설정 - notion-sync 건너뜀." >&2
-  fi
+publish_site() {
   echo "[build-loop] hwaro build 실행..."
   hwaro build --minify -o /site/public
 
   # wiki(nginx) 컨테이너는 이 볼륨을 non-root로 읽으므로, builder가
   # 쓴 파일의 소유권/umask와 무관하게 world-readable을 보장한다.
   chmod -R a+rX /site/public
+}
+
+run_cycle() {
+  # static/·templates/ 변경은 이미지에 baked-in되어 있으므로, notion-sync
+  # (수 분~수십 분) 전에 먼저 빌드해 public/을 즉시 갱신한다.
+  publish_site
+
+  if [ -n "${NOTION_TOKEN:-}" ] && [ -n "${NOTION_DB_ID:-}" ]; then
+    echo "[build-loop] notion-sync 실행..."
+    if npm run sync; then
+      publish_site
+    else
+      echo "[build-loop] notion-sync 실패 - 이전 빌드 결과를 유지합니다." >&2
+    fi
+  else
+    echo "[build-loop] NOTION_TOKEN/NOTION_DB_ID 미설정 - notion-sync 건너뜀." >&2
+  fi
 }
 
 while true; do

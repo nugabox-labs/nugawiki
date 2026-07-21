@@ -86,6 +86,14 @@ jobs:
           $COMPOSE up -d
           step_time "docker compose up done"
 
+          # static/ 변경은 wiki 볼륨 마운트로 즉시 반영되지만, builder
+          # public/도 곧바로 맞춰 두어 이중 경로가 어긋나지 않게 한다.
+          if [ "$REBUILD" -eq 1 ]; then
+            step_time "initial hwaro build start"
+            $COMPOSE exec -T builder sh -c 'hwaro build --minify -o /site/public && chmod -R a+rX /site/public'
+            step_time "initial hwaro build done"
+          fi
+
           # Reload nginx config if it changed (up -d doesn't reload config).
           # nginx가 막 (재)기동됐을 수 있으니 pid 파일이 나타날 때까지 잠깐
           # 기다리고, 그래도 reload가 실패하면 배포 자체는 실패시키지 않는다
