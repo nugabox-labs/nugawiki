@@ -457,7 +457,13 @@ html.code-linenumbers-on .code-line-no { display: inline-block; }
 .doc-article { max-width: 68ch; flex: 1; min-width: 0; }
 .doc-article--section { max-width: 68ch; }
 
-.doc-dek { font-size: var(--text-lg); color: var(--muted); margin-bottom: var(--space-3); max-width: 62ch; }
+.doc-dek {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  color: var(--muted);
+  margin-bottom: var(--space-3);
+  max-width: 62ch;
+}
 
 .doc-meta {
   display: flex; flex-direction: column; gap: var(--space-2);
@@ -475,7 +481,9 @@ html.code-linenumbers-on .code-line-no { display: inline-block; }
 .doc-meta-sep { opacity: .5; }
 .doc-tags { display: flex; gap: .4rem; flex-wrap: wrap; }
 .tag-chip {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
   text-decoration: none;
   color: var(--accent);
   border: 1px dashed color-mix(in srgb, var(--accent) 40%, var(--border));
@@ -486,6 +494,7 @@ html.code-linenumbers-on .code-line-no { display: inline-block; }
   transition: background-color .15s ease-out, color .15s ease-out;
 }
 .tag-chip:hover { background: var(--accent); color: var(--accent-fg); border-style: solid; }
+.chip-icon { width: 12px; height: 12px; fill: currentColor; stroke: currentColor; flex-shrink: 0; }
 
 .chip-row { display: flex; flex-wrap: wrap; gap: .5rem; margin: var(--space-3) 0; }
 
@@ -499,6 +508,9 @@ html.code-linenumbers-on .code-line-no { display: inline-block; }
 }
 .doc-article--about .prose blockquote {
   color: var(--fg);
+}
+.doc-article--about .about-name {
+  font-size: 1.125em;
 }
 
 /* ---- ~/.env settings page ------------------------------------------------------------- */
@@ -712,7 +724,13 @@ html.code-linenumbers-on .code-line-no { display: inline-block; }
   font-size: clamp(1.75rem, 1.4rem + 1.8vw, 2.7rem);
   margin-bottom: var(--space-2);
 }
-.hero-lede { font-size: var(--text-lg); color: var(--muted); max-width: 58ch; margin-bottom: var(--space-5); }
+.hero-lede {
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  color: var(--muted);
+  max-width: 58ch;
+  margin-bottom: var(--space-5);
+}
 .prose--home { max-width: 68ch; }
 
 /* ---- Home: inventory cards ----------------------------------------------------------------- */
