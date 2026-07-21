@@ -1,0 +1,24 @@
+name: Diag builder logs
+
+on:
+  workflow_dispatch:
+
+jobs:
+  diag:
+    runs-on: [self-hosted, linux, x64, nugacloud]
+    timeout-minutes: 5
+    steps:
+      - name: Dump nugawiki-builder status and logs
+        run: |
+          set -euo pipefail
+          cd /volume1/Develop/Sites/nugawiki
+          echo "===== compose ps ====="
+          docker compose ps -a
+          echo "===== NOTION env in builder ====="
+          docker compose exec -T builder sh -c \
+            'echo NOTION_TOKEN=$([ -n "$NOTION_TOKEN" ] && echo set || echo EMPTY); echo NOTION_DB_ID=$([ -n "$NOTION_DB_ID" ] && echo set || echo EMPTY); echo SYNC_INTERVAL_SECONDS=$SYNC_INTERVAL_SECONDS' \
+            || echo "(exec failed — container not running?)"
+          echo "===== builder logs (last 150) ====="
+          docker logs --tail 150 nugawiki-builder 2>&1 || true
+          echo "===== public volume page count (approx) ====="
+          docker compose exec -T builder sh -c 'find /site/public -name index.html 2>/dev/null | wc -l' || true
