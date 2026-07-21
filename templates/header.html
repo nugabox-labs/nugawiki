@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="{{ page.description | default(site.description, true) | e }}">
+  <meta name="description" content="Archive of experience and knowledge">
   <title>{% if page.url == "/" %}{{ site.title | e }}{% elif page.title is present %}{{ page.title | e }} :: {{ site.title | e }}{% else %}{{ site.title | e }}{% endif %}</title>
   <link rel="icon" type="image/svg+xml" href="{{ base_url }}/favicon.svg">
   <link rel="apple-touch-icon" href="{{ base_url }}/app-icon.png">
@@ -62,6 +62,7 @@
           </svg>
           <span class="brand-name">nugawiki<span class="brand-cursor" aria-hidden="true">_</span></span>
         </a>
+        <span class="topbar-desc">Archive of experience and knowledge</span>
         <button type="button" id="search-trigger-top" class="palette-trigger palette-trigger--top" aria-haspopup="dialog" aria-controls="search-modal">
           <svg class="palette-trigger-icon" viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="6" fill="none" stroke="currentColor" stroke-width="1.6"/><line x1="13.2" y1="13.2" x2="18" y2="18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
           <span>Search</span>

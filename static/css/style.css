@@ -327,6 +327,13 @@ html.code-linenumbers-on .code-line-no { display: inline-block; }
 
 @keyframes blink { 50% { opacity: 0; } }
 
+.topbar-desc {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--muted);
+  white-space: nowrap;
+}
+
 .nav-toggle {
   display: none;
   align-items: center; justify-content: center;
@@ -761,7 +768,8 @@ html.code-linenumbers-on .code-line-no { display: inline-block; }
 }
 .hero-lede {
   font-family: var(--font-display);
-  font-size: var(--text-lg);
+  font-size: var(--text-base);
+  font-weight: 600;
   color: var(--muted);
   max-width: 58ch;
   margin-bottom: var(--space-5);
@@ -772,6 +780,12 @@ html.code-linenumbers-on .code-line-no { display: inline-block; }
 /* ---- Home: inventory cards ----------------------------------------------------------------- */
 
 .inventory-grid { margin-top: var(--space-6); }
+.hero-divider {
+  border: none;
+  border-top: 1px dashed var(--border-strong);
+  margin: var(--space-4) 0;
+}
+
 .section-kicker {
   max-width: none;
   font-family: var(--font-mono); font-size: var(--text-xs);
@@ -952,6 +966,7 @@ html.code-linenumbers-on .code-line-no { display: inline-block; }
 
 @media (max-width: 900px) {
   .nav-toggle { display: flex; }
+  .topbar-desc { display: none; }
   .sidebar-backdrop {
     position: fixed;
     inset: var(--topbar-h) 0 0 0;
