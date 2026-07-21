@@ -2,6 +2,18 @@
 
 모든 주목할 만한 변경사항을 이 파일에 기록한다. [Semantic Versioning](https://semver.org/lang/ko/)을 따른다.
 
+## v0.18.0 - 2026-07-21
+
+### Added
+- [JetEndard](https://github.com/kuskhan/jetendard) v0.1.0 웹폰트를 `static/fonts/jetendard/`에 로컬 호스팅해 한/영 폰트를 통일.
+
+### Changed
+- 포스트 하단 `external_url` 라벨을 `원문` → `관련 링크`로 변경.
+- about 소개를 불릿 목록(직업·MBTI·포트폴리오)으로 재구성.
+
+### Fixed
+- about 링크 칩의 home·email SVG가 채워져 보이던 문제 — stroke/fill 아이콘 클래스 분리.
+
 ## v0.17.3 - 2026-07-21
 
 ### Fixed

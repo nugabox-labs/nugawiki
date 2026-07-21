@@ -18,10 +18,10 @@
   --border-strong: color-mix(in srgb, var(--fg) 26%, transparent);
   color-scheme: dark;
 
-  /* Type */
-  --font-display: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
-  --font-text: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  /* Type — JetEndard (한/영 통일, 로컬 호스팅) */
+  --font-display: "Jetendard", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --font-text: "Jetendard", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --font-mono: "Jetendard", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 
   --text-xs: clamp(0.72rem, 0.7rem + 0.1vw, 0.78rem);
   --text-sm: clamp(0.84rem, 0.81rem + 0.15vw, 0.9rem);
@@ -494,23 +494,22 @@ html.code-linenumbers-on .code-line-no { display: inline-block; }
   transition: background-color .15s ease-out, color .15s ease-out;
 }
 .tag-chip:hover { background: var(--accent); color: var(--accent-fg); border-style: solid; }
-.chip-icon { width: 12px; height: 12px; fill: currentColor; stroke: currentColor; flex-shrink: 0; }
+.chip-icon { width: 12px; height: 12px; flex-shrink: 0; }
+.chip-icon--stroke { fill: none; stroke: currentColor; }
+.chip-icon--fill { fill: currentColor; }
 
 .chip-row { display: flex; flex-wrap: wrap; gap: .5rem; margin: var(--space-3) 0; }
 
-/* about: homepage English UI uses JetBrains Mono */
-.doc-article--about .prose,
-.doc-article--about .prose p,
-.doc-article--about .prose blockquote,
-.doc-article--about .prose strong,
-.doc-article--about .prose a {
-  font-family: var(--font-display);
-}
-.doc-article--about .prose blockquote {
-  color: var(--fg);
-}
 .doc-article--about .about-name {
   font-size: 1.125em;
+}
+.doc-article--about .about-intro {
+  list-style: disc;
+  padding-left: 1.25rem;
+  margin: var(--space-2) 0 var(--space-3);
+}
+.doc-article--about .about-intro li + li {
+  margin-top: .25rem;
 }
 
 /* ---- ~/.env settings page ------------------------------------------------------------- */
