@@ -1,14 +1,17 @@
 {% include "header.html" %}
-      <main id="main" class="docs-main">
+      <main id="main" class="docs-main{% if page.extra.topic_path == 'about' or page.extra.topic_path == 'env' %} docs-main--short{% endif %}">
         <div class="doc-columns">
           <article class="doc-article{% if page.extra.topic_path == 'about' %} doc-article--about{% endif %}">
             {% if page.section %}
-            <p class="topic-path">./{% if page.section == "posts" %}posts{% else %}categories/{{ page.section }}{% endif %}</p>
+            <p class="topic-path"><span class="topic-path-user">nuga@nugawiki</span><span class="topic-path-colon">:</span> <span class="topic-path-prompt">$</span> cat ./{% if page.section == "posts" %}posts{% else %}categories/{{ page.section }}{% endif %}</p>
             {% elif page.extra.topic_path %}
-            <p class="topic-path">./{{ page.extra.topic_path }}</p>
+            <p class="topic-path"><span class="topic-path-user">nuga@nugawiki</span><span class="topic-path-colon">:</span> <span class="topic-path-prompt">$</span> cat ./{{ page.extra.topic_path }}</p>
             {% endif %}
             <h1>{{ page.title }}{% if page.extra.title_cursor %}<span class="brand-cursor" aria-hidden="true">_</span>{% endif %}</h1>
-            {% if page.description %}<p class="doc-dek">{{ page.description }}</p>{% endif %}
+            {% if page.description %}
+            <p class="doc-dek">{{ page.description }}</p>
+            <hr class="doc-divider" aria-hidden="true">
+            {% endif %}
 
             {% if page.date or page.tags | length > 0 or page.taxonomies.categories | length > 0 %}
             <div class="doc-meta">

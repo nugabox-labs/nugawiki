@@ -1,9 +1,19 @@
 {% include "header.html" %}
+      {% set path_parts = paginator.first | split(pat="/") %}
+      {% set section_slug = path_parts.1 %}
+      {% set full_section = get_section(path=section_slug) %}
       <main id="main" class="docs-main">
         <article class="doc-article doc-article--section">
-          <p class="topic-path">./{% if section.title == "posts" or page.url == "/posts/" or page.url == "/posts" %}posts{% else %}categories{% endif %}</p>
+          <p class="topic-path"><span class="topic-path-user">nuga@nugawiki</span><span class="topic-path-colon">:</span> <span class="topic-path-prompt">$</span> cat ./{% if section.title == "posts" or page.url == "/posts/" or page.url == "/posts" %}posts{% else %}categories{% endif %}</p>
           <h1>{{ page.title }}<span class="brand-cursor" aria-hidden="true">_</span></h1>
-          {% if page.description %}<p class="doc-dek">{{ page.description }}</p>{% endif %}
+          {% if page.description or full_section.pages_count %}
+          <p class="doc-dek">
+            {% if page.description %}<span class="doc-dek-text">{{ page.description }}</span>{% endif %}
+            {% if page.description and full_section.pages_count %}<span class="doc-dek-sep" aria-hidden="true">&middot;</span>{% endif %}
+            {% if full_section.pages_count %}<span class="doc-dek-count">{{ full_section.pages_count }} posts</span>{% endif %}
+          </p>
+          <hr class="doc-divider" aria-hidden="true">
+          {% endif %}
 
           <div class="tag-filter-bar" id="tag-filter-bar" role="group" aria-label="태그로 필터" hidden></div>
 
@@ -11,9 +21,6 @@
             {{ content | safe }}
           </div>
 
-          {% set path_parts = paginator.first | split(pat="/") %}
-          {% set section_slug = path_parts.1 %}
-          {% set full_section = get_section(path=section_slug) %}
           {% set sorted_pages = full_section.pages | sort(attribute="date") | reverse %}
           {% set page_start = (paginator.current_index - 1) * paginator.paginate_by %}
           {% set page_end = page_start + paginator.paginate_by %}
@@ -26,10 +33,10 @@
                   <span class="doc-index-title">{{ p.title }}</span>
                   {% if p.description %}<span class="doc-index-desc">{{ p.description | truncate_words(20) }}</span>{% endif %}
                 </span>
-                <span class="doc-index-watts">{% if p.date %}{{ p.date | date('%Y-%m-%d') }}{% endif %}</span>
                 {% if p.tags | length > 0 %}
                 <span class="doc-index-tags">{% for t in p.tags %}<span class="tag-chip-mini">#{{ t }}</span>{% endfor %}</span>
                 {% endif %}
+                <span class="doc-index-watts">{% if p.date %}{{ p.date | date('%Y-%m-%d') }}{% endif %}</span>
               </a>
             </li>
             {% endif %}

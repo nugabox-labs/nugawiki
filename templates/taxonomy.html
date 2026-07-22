@@ -1,9 +1,10 @@
 {% include "header.html" %}
       <main id="main" class="docs-main">
         <article class="doc-article">
-          <p class="topic-path">./{{ taxonomy_name }}</p>
+          <p class="topic-path"><span class="topic-path-user">nuga@nugawiki</span><span class="topic-path-colon">:</span> <span class="topic-path-prompt">$</span> cat ./{{ taxonomy_name }}</p>
           <h1>{% if taxonomy_name == "tags" %}tags{% else %}카테고리{% endif %}<span class="brand-cursor" aria-hidden="true">_</span></h1>
           <p class="doc-dek">{% if taxonomy_name == "tags" %}문서에 사용된 태그 목록입니다.{% else %}문서를 분류하는 카테고리 목록입니다.{% endif %}</p>
+          <hr class="doc-divider" aria-hidden="true">
           {% set tax = get_taxonomy(kind=taxonomy_name) %}
           <ul class="term-list">
             {% for term in tax.items | sort_by("name") %}

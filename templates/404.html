@@ -1,7 +1,7 @@
 {% include "header.html" %}
       <main id="main" class="docs-main">
         <article class="doc-article">
-          <p class="topic-path">./error</p>
+          <p class="topic-path"><span class="topic-path-user">nuga@nugawiki</span><span class="topic-path-colon">:</span> <span class="topic-path-prompt">$</span> cat ./error</p>
           <h1>404: 문서를 찾을 수 없음</h1>
           <div class="terminal-block terminal-block--error" aria-label="오류 출력">
             <div class="terminal-block-bar" aria-hidden="true"><span></span><span></span><span></span></div>
@@ -11,6 +11,7 @@
             </div>
           </div>
           <p class="doc-dek">해당 경로에는 아무 것도 없습니다. 삭제되었거나 애초에 존재하지 않는 문서일 수 있습니다 &mdash; 사이드바에서 카테고리를 확인하거나 홈으로 돌아가세요.</p>
+          <hr class="doc-divider" aria-hidden="true">
           <p><a class="doc-pager-link" href="{{ base_url }}/">&larr; ~/nugawiki로 돌아가기</a></p>
         </article>
       </main>

@@ -2,6 +2,55 @@
 
 모든 주목할 만한 변경사항을 이 파일에 기록한다. [Semantic Versioning](https://semver.org/lang/ko/)을 따른다.
 
+## v0.21.1 - 2026-07-22
+
+### Added
+- 페이지 설명(`doc-dek`) 아래에 점선 구분선 추가.
+
+## v0.21.0 - 2026-07-22
+
+### Added
+- 상단 경로를 `nuga@nugawiki: $ cat ./path` 프롬프트 형식으로 통일.
+- about에 `$ ls ~/links` 유지, `made by Nuga Jang`을 accent 초록으로 표시.
+
+### Removed
+- about 전용 last login·man 섹션·블록 커서·`echo $?` 푸터 실험 UI.
+
+## v0.20.2 - 2026-07-22
+
+### Changed
+- 글 포스트 본문 단락·목록 폰트만 한 단계 축소. 제목·사이드바·`./on-this-page`는 유지.
+- 홈 TODAY/TOTAL·포스트 조회수를 천 단위 콤마(`1,234`)로 표시.
+- 홈 카테고리 그리드 아래 여백 추가.
+
+## v0.20.1 - 2026-07-22
+
+### Fixed
+- home·about·env 상·하단 여백을 동일하게 맞춤(`docs-main--short` / `docs-layout--short`).
+- 짧은 페이지에서 사이드바가 레이아웃을 키워 생기던 하단 공백 제거 — 사이드바는 absolute + sticky inner.
+- about 사이드바·ASCII 스크롤바 숨김, 점선 구분선이 콘텐츠 높이만큼 이어지도록 수정.
+
+## v0.20.0 - 2026-07-22
+
+### Added
+- 섹션 글 목록 설명 옆에 `· N posts` 카운트를 accent 초록으로 표시.
+
+## v0.19.1 - 2026-07-22
+
+### Fixed
+- 모바일 글 목록 순서를 제목 → 태그 → 날짜로 변경.
+
+## v0.19.0 - 2026-07-22
+
+### Added
+- about 사진 아래에 NUGABOX ASCII 아트 배너 추가.
+
+### Changed
+- about 라벨을 `mbti_` / `introduction_`로 바꾸고 언더바를 accent 초록으로 표시.
+
+### Fixed
+- about 하단 과도한 빈 공간 제거 — 홈과 같이 sticky footer flex 패턴을 끔.
+
 ## v0.18.0 - 2026-07-21
 
 ### Added

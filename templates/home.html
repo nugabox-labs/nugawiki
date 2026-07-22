@@ -1,8 +1,8 @@
 {% include "header.html" %}
-      <main id="main" class="docs-main docs-main--home">
+      <main id="main" class="docs-main docs-main--short">
         <h1 class="hero-title hero-title--home">{{ page.title }}<span class="brand-cursor" aria-hidden="true">_</span></h1>
         {% if page.description %}<p class="hero-lede">{{ page.description }}</p>{% endif %}
-        <hr class="hero-divider">
+        <hr class="hero-divider" aria-hidden="true">
 
         {% set post_pages_count = get_section(path="posts").pages_count %}
         {% set total_docs = (site.sections | sum(attribute="pages_count")) - post_pages_count %}

@@ -101,10 +101,13 @@ a { color: inherit; }
 .topic-path {
   font-family: var(--font-mono);
   font-size: var(--text-sm);
-  color: var(--accent);
+  color: var(--fg);
   letter-spacing: .02em;
   margin-bottom: var(--space-2);
 }
+.topic-path-user { color: var(--accent); font-weight: 600; }
+.topic-path-colon { color: var(--fg); }
+.topic-path-prompt { color: var(--muted); }
 
 /* ---- Base typography -------------------------------------------------------- */
 
@@ -129,6 +132,12 @@ h4 {
 .prose h1 { font-size: var(--text-xl); }
 .prose h2 { font-size: var(--text-lg); }
 .prose h3 { font-size: var(--text-base); }
+
+/* 글 포스트 본문(단락·목록)만 한 단계 축소 — 제목·사이드바·./on-this-page·about 제외 */
+.doc-article:not(.doc-article--about):not(.doc-article--section) .prose p,
+.doc-article:not(.doc-article--about):not(.doc-article--section) .prose li {
+  font-size: var(--text-sm);
+}
 
 /* ---- Heading anchor links (copy-link buttons) --------------------------------- */
 
@@ -299,6 +308,7 @@ html.code-linenumbers-on .code-line-no { display: inline-block; }
 /* ---- Shell / topbar ---------------------------------------------------------- */
 
 .shell { min-height: 100vh; display: flex; flex-direction: column; min-width: 0; }
+.shell:has(.docs-layout--short) { min-height: auto; }
 
 .topbar {
   position: sticky; top: 0; z-index: 40;
@@ -357,13 +367,39 @@ html.code-linenumbers-on .code-line-no { display: inline-block; }
   width: 100%;
   min-width: 0;
 }
-/* On home, let the footer sit right after the content instead of being
-   pinned to the viewport bottom by the flex-grow "sticky footer" pattern.
-   The sidebar's own forced full-viewport height drives the row's height
-   too, so it needs to shrink-to-fit here as well (still caps + scrolls
-   internally if nav content ever grows past the viewport). */
-.docs-layout--home { flex: 0 1 auto; }
-.docs-layout--home .sidebar { height: auto; max-height: calc(100vh - var(--topbar-h)); }
+/* Short pages (home / about / env): layout height follows main content.
+   Sidebar is taken out of flow so it cannot inflate the page, then the
+   inner rail sticks while scrolling. Dashed divider spans full content. */
+.docs-layout--short {
+  position: relative;
+  display: block;
+  flex: 0 1 auto;
+  padding-left: var(--sidebar-w);
+}
+.docs-layout--short .sidebar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: var(--sidebar-w);
+  height: auto;
+  max-height: none;
+  margin-bottom: 0;
+  overflow: visible;
+  border-right: 1px dashed var(--border-strong);
+}
+.docs-layout--short .sidebar-inner {
+  position: sticky;
+  top: var(--topbar-h);
+  max-height: calc(100vh - var(--topbar-h));
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.docs-layout--short .sidebar-inner::-webkit-scrollbar { display: none; }
+.docs-layout--short .docs-main {
+  width: 100%;
+  box-sizing: border-box;
+}
 
 .sidebar {
   position: sticky;
@@ -473,7 +509,11 @@ html.code-linenumbers-on .code-line-no { display: inline-block; }
 .sidebar-divider { border: none; border-top: 1px dashed var(--border); margin: var(--space-3) 0; }
 
 .docs-main { flex: 1; min-width: 0; padding: var(--space-6) var(--space-5) var(--space-7); }
-.docs-main--home { padding-top: var(--space-5); padding-bottom: var(--space-4); }
+.docs-main--short {
+  flex: 0 0 auto;
+  padding-top: var(--space-6);
+  padding-bottom: var(--space-6);
+}
 
 /* ---- Article / TOC columns ---------------------------------------------------- */
 
@@ -485,8 +525,24 @@ html.code-linenumbers-on .code-line-no { display: inline-block; }
   font-family: var(--font-display);
   font-size: var(--text-sm);
   color: var(--muted);
-  margin-bottom: var(--space-3);
+  margin-bottom: var(--space-2);
   max-width: 62ch;
+}
+.doc-dek-sep {
+  margin: 0 .45em;
+  opacity: .5;
+}
+.doc-dek-count {
+  font-family: var(--font-mono);
+  color: var(--accent);
+  white-space: nowrap;
+}
+.doc-divider {
+  border: none;
+  border-top: 1px dashed var(--border-strong);
+  margin: 0 0 var(--space-4);
+  width: 100%;
+  max-width: none;
 }
 
 .doc-meta {
@@ -501,7 +557,7 @@ html.code-linenumbers-on .code-line-no { display: inline-block; }
   display: flex; flex-wrap: wrap; gap: var(--space-3);
   align-items: center;
 }
-.docs-main--home .doc-meta { border-bottom: none; padding-bottom: 0; }
+.docs-main--short .doc-meta { border-bottom: none; padding-bottom: 0; }
 .doc-meta-sep { opacity: .5; }
 .doc-tags { display: flex; gap: .4rem; flex-wrap: wrap; }
 .tag-chip {
@@ -526,6 +582,37 @@ html.code-linenumbers-on .code-line-no { display: inline-block; }
 
 .doc-article--about .about-name {
   font-size: 1.125em;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-weight: 600;
+}
+.doc-article--about .about-ls-cmd {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--muted);
+  margin: var(--space-3) 0 var(--space-2);
+}
+.doc-article--about .about-ascii {
+  font-family: var(--font-mono);
+  font-size: clamp(.55rem, 1.55vw, .82rem);
+  line-height: 1.15;
+  letter-spacing: 0;
+  color: var(--fg);
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: var(--space-3) 0 var(--space-4);
+  overflow-x: auto;
+  white-space: pre;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.doc-article--about .about-ascii::-webkit-scrollbar { display: none; }
+.doc-article--about .about-key {
+  font-family: var(--font-mono);
+}
+.doc-article--about .about-key-us {
+  color: var(--accent);
 }
 .doc-article--about .about-intro {
   list-style: disc;
@@ -779,7 +866,7 @@ html.code-linenumbers-on .code-line-no { display: inline-block; }
 
 /* ---- Home: inventory cards ----------------------------------------------------------------- */
 
-.inventory-grid { margin-top: var(--space-6); }
+.inventory-grid { margin-top: var(--space-6); margin-bottom: var(--space-5); }
 .hero-divider {
   border: none;
   border-top: 1px dashed var(--border-strong);
@@ -974,17 +1061,30 @@ html.code-linenumbers-on .code-line-no { display: inline-block; }
     z-index: 25;
   }
   .sidebar-backdrop[hidden] { display: none; }
-  .sidebar {
+  .docs-layout--short {
+    padding-left: 0;
+  }
+  .sidebar,
+  .docs-layout--short .sidebar {
     position: fixed;
     top: var(--topbar-h);
     left: 0;
+    bottom: auto;
     width: min(85vw, 320px);
     height: calc(100vh - var(--topbar-h));
+    max-height: none;
     background: var(--bg);
     transform: translateX(-100%);
     transition: transform .2s ease-out;
     z-index: 30;
     border-right: 1px solid var(--border-strong);
+    overflow-y: auto;
+  }
+  .docs-layout--short .sidebar-inner {
+    position: static;
+    max-height: none;
+    overflow: visible;
+    scrollbar-width: thin;
   }
   .sidebar.is-open { transform: translateX(0); }
   .docs-main { padding: var(--space-5) var(--space-4) var(--space-6); }
@@ -1003,7 +1103,8 @@ html.code-linenumbers-on .code-line-no { display: inline-block; }
   .inv-cards { grid-template-columns: 1fr; }
   .doc-index a { flex-direction: column; align-items: stretch; gap: .3rem; }
   .doc-index-host { width: auto; }
-  .doc-index-watts { margin-left: 0; }
+  .doc-index-tags { order: 2; }
+  .doc-index-watts { margin-left: 0; order: 3; }
   .spec-row { grid-template-columns: 6ch 1fr; }
   .lede-break { display: block; }
 }

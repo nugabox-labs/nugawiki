@@ -9,7 +9,7 @@
   <link rel="apple-touch-icon" href="{{ base_url }}/app-icon.png">
   <meta name="apple-mobile-web-app-title" content="{{ site.title | e }}">
   <link rel="stylesheet" href="{{ base_url }}/fonts/jetendard/jetendard.css">
-  <link rel="stylesheet" href="{{ base_url }}/css/style.css?v=4">
+  <link rel="stylesheet" href="{{ base_url }}/css/style.css?v=9">
   {# Social preview always reads as a clean brand tagline, independent of each
      page's own title/description. These override tags precede og_all_tags's
      own og:title/og:description so link-preview parsers (which use the first
@@ -75,7 +75,7 @@
       </div>
     </header>
 
-    <div class="docs-layout{% if page.url == "/" %} docs-layout--home{% endif %}">
+    <div class="docs-layout{% if page.url == "/" or page.extra.topic_path == 'about' or page.extra.topic_path == 'env' %} docs-layout--short{% endif %}">
       <div class="sidebar-backdrop" id="sidebar-backdrop" hidden></div>
       <nav class="sidebar" id="sidebar" aria-label="위키 목차">
         <div class="sidebar-inner">

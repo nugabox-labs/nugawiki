@@ -201,6 +201,8 @@ var showCopyToast = (function () {
   }
 
   Array.prototype.forEach.call(blocks, function (pre) {
+    if (pre.classList.contains("about-ascii")) return;
+
     var code = pre.querySelector("code");
 
     var btn = document.createElement("button");
@@ -300,6 +302,12 @@ var showCopyToast = (function () {
   var NAMESPACE = "wiki.nugabox.com";
   var KEY_RE = /^[A-Za-z0-9_\-.]{3,64}$/;
 
+  function formatCount(n) {
+    var num = Number(n);
+    if (!isFinite(num)) return "-";
+    return Math.floor(num).toLocaleString("en-US");
+  }
+
   function hit(key, el) {
     if (!el || !KEY_RE.test(key)) return;
     var url = "https://abacus.jasoncameron.dev/hit/" + encodeURIComponent(NAMESPACE) + "/" + encodeURIComponent(key);
@@ -309,7 +317,7 @@ var showCopyToast = (function () {
         return res.json();
       })
       .then(function (data) {
-        el.textContent = Number(data.value).toLocaleString();
+        el.textContent = formatCount(data.value);
       })
       .catch(function () {
         el.textContent = "-";

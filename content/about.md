@@ -12,13 +12,21 @@ topic_path = "about"
   <img src="/img/about.jpg" width="300px" align="left" style="display:block; border-radius: 10px; padding: 0px;">
 </p>
 
-<p><strong class="about-name">Nuga Jang</strong></p>
+<pre class="about-ascii" aria-label="NUGABOX">  _   _  _    _   _____            ____    ____  __   __
+ | \ | || |  | | / ____|    /\    |  _ \  / __ \ \ \ / /
+ |  \| || |  | || |  __    /  \   | |_) || |  | | \ V /
+ | . ` || |  | || | |_ |  / /\ \  |  _ < | |  | |  > <
+ | |\  || |__| || |__| | / ____ \ | |_) || |__| | / . \
+ |_| \_| \____/  \_____|/_/    \_\|____/  \____/ /_/ \_\</pre>
+
+<p><strong class="about-name">made by Nuga Jang</strong></p>
 <ul class="about-intro">
   <li>Web/Mobile Application Developer</li>
-  <li>MBTI : <code>INTJ</code></li>
-  <li>Introduction : <a href="https://portfolio.nugabox.com" target="_blank" rel="noopener">https://portfolio.nugabox.com</a></li>
+  <li><span class="about-key">mbti<span class="about-key-us">_</span></span> <code>INTJ</code></li>
+  <li><span class="about-key">introduction<span class="about-key-us">_</span></span> <a href="https://portfolio.nugabox.com" target="_blank" rel="noopener">https://portfolio.nugabox.com</a></li>
 </ul>
 
+<p class="about-ls-cmd"><span class="prompt-glyph" aria-hidden="true">$</span> ls ~/links</p>
 <div class="chip-row">
   <a class="tag-chip" href="https://nugabox.io" target="_blank" rel="noopener"><svg class="chip-icon chip-icon--stroke" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>homepage</a>
   <a class="tag-chip" href="mailto:root@nugabox.com" target="_blank" rel="noopener"><svg class="chip-icon chip-icon--stroke" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>email</a>
