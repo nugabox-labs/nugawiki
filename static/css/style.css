@@ -1217,6 +1217,9 @@ a.ls-name:hover { text-decoration: underline; }
   .doc-index-watts { margin-left: 0; order: 3; }
   .spec-row { grid-template-columns: 6ch 1fr; }
   .lede-break { display: block; }
+  .home-ls-cmd { margin-top: var(--space-3); margin-bottom: var(--space-2); }
+  .chip-row { margin: var(--space-2) 0; }
+  .inventory-grid { margin-top: var(--space-4); margin-bottom: var(--space-4); }
 }
 
 /* ---- Motion ------------------------------------------------------------------------------------------- */

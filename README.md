@@ -20,7 +20,7 @@ Notion(DEV-WIKI) --notion-sync.mjs--> content/*.md --hwaro build--> public/ --ng
 ```
 nugawiki/
 ├── scripts/notion-sync.mjs   # Notion -> content/*.md 동기화
-├── scripts/dev-entrypoint.sh # 개발 컨테이너 진입점(sync 1회 + hwaro serve)
+├── scripts/dev-entrypoint.sh # 개발 컨테이너 진입점(hwaro serve, sync 없음)
 ├── scripts/build-loop.sh     # 운영 builder 진입점(sync + build 반복)
 ├── content/                  # 동기화 산출물 + 수기 문서
 ├── templates/                # Hwaro 템플릿(alder 임포트 + 카테고리/태그 대응, AdSense 자리 포함)
@@ -55,7 +55,7 @@ cp .env.example .env
 ./compose.sh --dev down    # 정지 + 제거
 ```
 
-`content/`, `templates/`, `static/`, `config.toml`, `scripts/`가 컨테이너에 바인드 마운트되어 저장 즉시 반영됩니다(재시작 불필요). 컨테이너 시작 시 `notion-sync`가 1회 실행된 뒤 `hwaro serve`가 포그라운드로 뜹니다. `NOTION_TOKEN`/`NOTION_DB_ID`가 없으면 sync는 건너뛰고 기존 `content/`로 서버만 뜹니다.
+`content/`, `templates/`, `static/`, `config.toml`, `scripts/`가 컨테이너에 바인드 마운트되어 저장 즉시 반영됩니다(재시작 불필요). 컨테이너 시작 시 sync 없이 기존 `content/`로 `hwaro serve`가 바로 포그라운드로 뜹니다. Notion 동기화는 운영(builder) 컨테이너에서만 수행됩니다.
 
 ### 3. 운영 모드
 
